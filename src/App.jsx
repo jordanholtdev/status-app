@@ -27,7 +27,7 @@ function App() {
                 <Auth
                     supabaseClient={supabase}
                     appearance={{ theme: ThemeSupa }}
-                    providers={['github', 'google', 'facebook']}
+                    providers={['github', 'google']}
                     view='sign_in'
                     socialLayout='horizontal'
                 />
