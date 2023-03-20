@@ -11,6 +11,7 @@ import Account from './Account';
 function App() {
     const [session, setSession] = useState(null);
 
+    // get current session
     useEffect(() => {
         supabase.auth.getSession().then(({ data: { session } }) => {
             setSession(session);
@@ -24,6 +25,8 @@ function App() {
     return (
         <div className='container' style={{ padding: '50px 0 100px 0' }}>
             {!session ? (
+                // Auth UI component
+                // social auth for github & google
                 <Auth
                     supabaseClient={supabase}
                     appearance={{ theme: ThemeSupa }}
