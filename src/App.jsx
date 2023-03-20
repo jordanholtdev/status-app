@@ -1,4 +1,3 @@
-import './App.css';
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import { Auth } from '@supabase/auth-ui-react';
@@ -23,17 +22,33 @@ function App() {
     }, []);
 
     return (
-        <div className='container' style={{ padding: '50px 0 100px 0' }}>
+        <div>
             {!session ? (
                 // Auth UI component
                 // social auth for github & google
-                <Auth
-                    supabaseClient={supabase}
-                    appearance={{ theme: ThemeSupa }}
-                    providers={['github', 'google']}
-                    view='sign_in'
-                    socialLayout='horizontal'
-                />
+                <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+                    <div className='w-full max-w-md space-y-8'>
+                        <div>
+                            <Auth
+                                supabaseClient={supabase}
+                                appearance={{
+                                    theme: ThemeSupa,
+                                    variables: {
+                                        default: {
+                                            colors: {
+                                                brand: 'red',
+                                                brandButtonText: 'black',
+                                            },
+                                        },
+                                    },
+                                }}
+                                providers={['github', 'google']}
+                                view='sign_in'
+                                socialLayout='horizontal'
+                            />
+                        </div>
+                    </div>
+                </div>
             ) : (
                 <Account key={session.user.id} session={session} />
             )}
