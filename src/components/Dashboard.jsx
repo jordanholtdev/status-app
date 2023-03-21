@@ -47,19 +47,33 @@ export default function Dashboard({ session }) {
                     <div className='flex h-16 items-center justify-between'>
                         <div className='flex items-center'>
                             <div>
-                                <div className='ml-10 flex items-baseline space-x-4'>
+                                <div className='ml-1 flex items-baseline space-x-6'>
+                                    <svg
+                                        xmlns='http://www.w3.org/2000/svg'
+                                        fill='none'
+                                        viewBox='0 0 24 24'
+                                        strokeWidth='1.5'
+                                        stroke='currentColor'
+                                        className='w-6 h-6'
+                                    >
+                                        <path
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                            d='M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5'
+                                        />
+                                    </svg>
                                     <button
                                         type='button'
-                                        onClick={() => supabase.auth.signOut()}
-                                        className='inline-flex justify-center rounded-md py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+                                        className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
                                     >
-                                        Sign Out
+                                        Account
                                     </button>
                                     <button
                                         type='button'
-                                        className='inline-flex justify-center rounded-md py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+                                        onClick={() => supabase.auth.signOut()}
+                                        className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
                                     >
-                                        Account
+                                        Sign Out
                                     </button>
                                 </div>
                             </div>
@@ -68,13 +82,13 @@ export default function Dashboard({ session }) {
                 </div>
             </nav>
             <header className='shadow bg-gray-900'>
-                <div className='mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8'>
+                <div className='mx-auto max-w-7xl py-6 px-6 sm:px-6 lg:px-8'>
                     <h1 className='text-3xl font-bold tracking-tight text-slate-50'>
                         Dashboard
                     </h1>
                 </div>
             </header>
-            <main className='min-h-screen px-4'>
+            <main className='min-h-screen px-6'>
                 <div className='mx-auto max-w-7xl py-6 sm:px-6 lg:px-8'>
                     <SearchBar onSubmit={onSearchSubmit} />
                     {isLoading ? (
