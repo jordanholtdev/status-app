@@ -5,7 +5,7 @@ import {
     // Import predefined theme
     ThemeSupa,
 } from '@supabase/auth-ui-shared';
-import Account from './Account';
+import Dashboard from './components/Dashboard';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -50,7 +50,8 @@ function App() {
                     </div>
                 </div>
             ) : (
-                <Account key={session.user.id} session={session} />
+                // <Account key={session.user.id} session={session} />
+                <Dashboard key={session.user.id} session={session} />
             )}
         </div>
     );
