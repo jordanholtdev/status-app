@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from './supabaseClient';
+import { supabase } from '../supabaseClient';
+import Dashboard from '../components/Dashboard';
 
 export default function Account({ session }) {
     const [loading, setLoading] = useState(true);
@@ -55,7 +56,8 @@ export default function Account({ session }) {
     }
 
     return (
-        <div className='overflow-hidden bg-white shadow sm:rounded-lg'>
+        <div className='overflow-hiddend'>
+            <Dashboard key={session.user.id} session={session} />
             <div className='px-4 py-5 sm:px-6'>
                 <h3 className='text-base font-semibold leading-6 text-gray-900'>
                     Account Settings

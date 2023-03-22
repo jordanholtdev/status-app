@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { supabase } from './supabaseClient';
 import { Auth } from '@supabase/auth-ui-react';
+import { Routes, Route } from 'react-router-dom';
 import {
     // Import predefined theme
     ThemeSupa,
 } from '@supabase/auth-ui-shared';
-import Dashboard from './components/Dashboard';
-import Search from './components/Search';
+import Account from './pages/Account';
+import Create from './pages/Create';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -52,21 +53,27 @@ function App() {
                 </div>
             ) : (
                 // <Account key={session.user.id} session={session} />
-                <>
-                    <Dashboard key={session.user.id} session={session} />
-                    <header className='shadow bg-zinc-900'>
-                        <div className='mx-auto max-w-7xl py-6 px-6 sm:px-6 lg:px-8'>
-                            <h1 className='text-3xl font-bold tracking-tight text-slate-50'>
-                                Dashboard
-                            </h1>
-                        </div>
-                    </header>
-                    <main className='min-h-screen px-6 bg-zinc-900'>
-                        <div className='mx-auto max-w-7xl py-6 sm:px-6 lg:px-8'>
-                            <Search session={session} />
-                        </div>
-                    </main>
-                </>
+                <Routes>
+                    <Route
+                        path='/'
+                        element={
+                            <Account key={session.user.id} session={session} />
+                        }
+                    />
+                    <Route
+                        path='/add-flight'
+                        element={
+                            !session ? (
+                                <Auth />
+                            ) : (
+                                <Create
+                                    key={session.user.id}
+                                    session={session}
+                                />
+                            )
+                        }
+                    />
+                </Routes>
             )}
         </div>
     );

@@ -1,9 +1,10 @@
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
+import Dashboard from '../components/Dashboard';
 import { useState } from 'react';
 import { useGetFlights } from '../hooks/useGetFilghts';
 import { supabase } from '../supabaseClient';
 
-const Search = ({ session }) => {
+const Create = ({ session }) => {
     const { isLoading, flightList, getFlights } = useGetFlights();
     const { selectedResult, setSelectedResult } = useState(null);
 
@@ -31,6 +32,7 @@ const Search = ({ session }) => {
 
     return (
         <div>
+            <Dashboard key={session.user.id} session={session} />
             <div>
                 <SearchBar onSubmit={onSearchSubmit} />
             </div>
@@ -57,4 +59,4 @@ const Search = ({ session }) => {
     );
 };
 
-export default Search;
+export default Create;
