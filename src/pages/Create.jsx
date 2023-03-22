@@ -33,27 +33,47 @@ const Create = ({ session }) => {
     return (
         <div>
             <Dashboard key={session.user.id} session={session} />
-            <div>
-                <SearchBar onSubmit={onSearchSubmit} />
+            <div className='px-4 py-5 sm:px-6 max-w-md'>
+                <h3 className='text-base font-semibold leading-6 text-white'>
+                    Add flight
+                </h3>
+                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
+                    Select a flight to track.
+                </p>
             </div>
-            <div>
-                {isLoading ? (
-                    <div>Loading</div>
-                ) : (
-                    <ul>
-                        {flightList.map((flight, idx) => (
-                            <li
-                                key={idx}
-                                onClick={() => handleResultClick(flight)}
-                                className='text-gray-400 hover:bg-slate-700 w-4/12 py-1 px-2'
-                            >
-                                <p className='border-l-4 border-blue-800 hover:border-violet-600 px-4'>
-                                    {flight.word}
+            <div className='border-t border-zinc-600'>
+                <div className='flex justify-center min-w-full mt-10 '>
+                    <div>
+                        <p className='text-sm text-gray-300 block leading-5 font-medium py-2'>
+                            Enter a flight number:
+                        </p>
+                        <SearchBar onSubmit={onSearchSubmit} />
+                        {isLoading ? (
+                            <div>Loading</div>
+                        ) : (
+                            <div className='py-8'>
+                                <p className='text-sm text-gray-300 block leading-5 font-medium py-2'>
+                                    Select a result from below:
                                 </p>
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                                <ul>
+                                    {flightList.map((flight, idx) => (
+                                        <li
+                                            key={idx}
+                                            onClick={() =>
+                                                handleResultClick(flight)
+                                            }
+                                            className='text-gray-400 hover:bg-slate-700 w-4/12 py-1 px-2'
+                                        >
+                                            <p className='border-l-4 border-blue-800 hover:border-violet-600 px-4'>
+                                                {flight.word}
+                                            </p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
