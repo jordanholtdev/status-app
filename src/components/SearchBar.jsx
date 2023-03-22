@@ -6,6 +6,7 @@ const SearchBar = (props) => {
     const onFormSubmit = (e) => {
         e.preventDefault();
         props.onSubmit(term);
+        setTerm('');
     };
 
     return (
@@ -17,11 +18,10 @@ const SearchBar = (props) => {
                 role='search'
             >
                 <div className='field'>
-                    <label className='block text-sm font-medium leading-6 text-gray-400'>
-                        Enter Flight Number:
+                    <label className='block text-sm font-medium leading-6'>
                         <input
                             type='text'
-                            className='block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-400 ring-1 ring-inset ring-gray-300 placeholder:text-gray-100 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-800'
+                            className='block w-7/12 rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-400 ring-1 ring-inset ring-zinc-700 placeholder:text-zinc-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-zinc-800'
                             placeholder='Enter flight number'
                             value={term}
                             onChange={(e) => setTerm(e.target.value)}
