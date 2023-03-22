@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import { Link } from 'react-router-dom';
 
 export default function Dashboard({ session }) {
     const [loading, setLoading] = useState(true);
@@ -50,12 +51,18 @@ export default function Dashboard({ session }) {
                                             d='M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5'
                                         />
                                     </svg>
-                                    <button
-                                        type='button'
+                                    <Link
+                                        to='/'
                                         className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
                                     >
                                         Account
-                                    </button>
+                                    </Link>
+                                    <Link
+                                        to='/add-flight'
+                                        className='text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium'
+                                    >
+                                        Add
+                                    </Link>
                                     <button
                                         type='button'
                                         onClick={() => supabase.auth.signOut()}
