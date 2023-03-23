@@ -34,25 +34,33 @@ const Create = ({ session }) => {
         setResults(newResults);
     };
 
-    // once a single result selection is made
     // this function inserts the result into the database
     const insertResultSelection = async () => {
         const { user } = session;
         console.log('the selected result is:', selectedResult);
         // insert the selected data into the database
-        // let { data, error } = await supabase
-        //     .from('testing')
-        //     .insert([
-        //         { name: selection.word, user_id: user.id, info: selection },
-        //     ])
-        //     .select();
+        let { data, error } = await supabase
+            .from('testing')
+            .insert([
+                {
+                    name: selectedResult.word,
+                    user_id: user.id,
+                    info: selectedResult,
+                },
+            ])
+            .select();
 
-        // console.log(data);
-        console.log('selection insereted');
-        // reset the selection state
-        setIsSelected(false);
-        // send user to their list if successful
-        navigate('/');
+        if (error) {
+            console.error(error);
+        }
+        if (data) {
+            console.log('selection insereted', data);
+            // reset the selection state
+
+            setIsSelected(false);
+            // send user to their list if successful
+            navigate('/flights');
+        }
     };
 
     return (
