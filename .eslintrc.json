@@ -1,4 +1,9 @@
 {
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "env": {
         "browser": true,
         "es2021": true
@@ -17,5 +22,6 @@
         }
     },
     "plugins": ["react"],
+    "ignorePatterns": ["/src/*.css"],
     "rules": {}
 }
