@@ -16,13 +16,12 @@ const List = ({ session }) => {
 
             let { data, error } = await supabase
                 .from('testing')
-                .select(`name, info`)
+                .select(`name, info, id`)
                 .eq('user_id', user.id);
 
             if (error) {
                 console.warn(error);
             } else if (data) {
-                console.log(data);
                 setFlights(data);
             }
 
@@ -31,6 +30,21 @@ const List = ({ session }) => {
 
         getSavedFlights();
     }, [session]);
+
+    // allow user to delete item from list
+
+    const handleDelete = async (flight) => {
+        console.log(flight);
+        const { error } = await supabase
+            .from('testing')
+            .delete()
+            .eq('id', flight.id);
+
+        if (error) {
+            console.warn(error);
+        }
+        console.log('deleted');
+    };
 
     return (
         <div>
@@ -58,6 +72,13 @@ const List = ({ session }) => {
                                         <div className='px-4 py-5 sm:px-6'>
                                             <p className='mt-1 max-w-2xl text-sm text-gray-400'>
                                                 {flight.name}
+                                            </p>
+                                            <p
+                                                onClick={() =>
+                                                    handleDelete(flight)
+                                                }
+                                            >
+                                                Delete me
                                             </p>
                                         </div>
                                     </div>
