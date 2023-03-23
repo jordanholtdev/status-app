@@ -35,15 +35,8 @@ function App() {
                                 supabaseClient={supabase}
                                 appearance={{
                                     theme: ThemeSupa,
-                                    variables: {
-                                        default: {
-                                            colors: {
-                                                brand: 'red',
-                                                brandButtonText: 'black',
-                                            },
-                                        },
-                                    },
                                 }}
+                                theme='dark'
                                 providers={['github', 'google']}
                                 view='sign_in'
                                 socialLayout='horizontal'
