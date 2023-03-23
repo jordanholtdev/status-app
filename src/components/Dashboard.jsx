@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default function Dashboard({ session }) {
-    const [loading, setLoading] = useState(true);
-    const [username, setUsername] = useState(null);
+    // const [username, setUsername] = useState(null);
 
+    // retrieve the profile information
+    // set username local state
     useEffect(() => {
         async function getProfile() {
-            setLoading(true);
             const { user } = session;
 
             let { data, error } = await supabase
@@ -20,16 +21,15 @@ export default function Dashboard({ session }) {
             if (error) {
                 console.warn(error);
             } else if (data) {
-                setUsername(data.username);
+                // setUsername(data.username);
             }
-
-            setLoading(false);
         }
 
         getProfile();
     }, [session]);
 
     return (
+        // TODO: include mobile hamburger menu & adjust username styles
         <div className='min-h-full bg-gray-900'>
             <nav className='bg-zinc-800'>
                 <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -79,3 +79,7 @@ export default function Dashboard({ session }) {
         </div>
     );
 }
+
+Dashboard.propTypes = {
+    session: PropTypes.object.isRequired,
+};

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import Dashboard from '../components/Dashboard';
+import PropTypes from 'prop-types';
 
 export default function Account({ session }) {
     const [loading, setLoading] = useState(true);
@@ -141,3 +142,7 @@ export default function Account({ session }) {
         </div>
     );
 }
+
+Account.propTypes = {
+    session: PropTypes.object.isRequired,
+};

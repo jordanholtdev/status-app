@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useGetFlights } from '../hooks/useGetFilghts';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import PropTypes from 'prop-types';
 
 const Create = ({ session }) => {
     const navigate = useNavigate();
@@ -13,7 +14,6 @@ const Create = ({ session }) => {
     const [results, setResults] = useState([]);
 
     useEffect(() => {
-        console.log('useEffect firing', selectedResult);
         setResults([...flightList]);
     }, [flightList]);
 
@@ -129,6 +129,10 @@ const Create = ({ session }) => {
             </div>
         </div>
     );
+};
+
+Create.propTypes = {
+    session: PropTypes.object.isRequired,
 };
 
 export default Create;
