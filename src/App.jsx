@@ -46,7 +46,6 @@ function App() {
                     </div>
                 </div>
             ) : (
-                // <Account key={session.user.id} session={session} />
                 <Routes>
                     <Route
                         path='/'
