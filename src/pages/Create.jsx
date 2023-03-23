@@ -1,33 +1,58 @@
 import SearchBar from '../components/SearchBar';
 import Dashboard from '../components/Dashboard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetFlights } from '../hooks/useGetFilghts';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 const Create = ({ session }) => {
+    const navigate = useNavigate();
     const { isLoading, flightList, getFlights } = useGetFlights();
-    const { selectedResult, setSelectedResult } = useState(null);
+    const [isSelected, setIsSelected] = useState(null);
+    const [selectedResult, setSelectedResult] = useState();
+    const [results, setResults] = useState([]);
+
+    useEffect(() => {
+        console.log('useEffect firing', selectedResult);
+        setResults([...flightList]);
+    }, [flightList]);
 
     const onSearchSubmit = async (term) => {
+        setIsSelected(false);
         getFlights(term);
     };
 
-    // this function takes the selected result
-    // inserts the result into the database
+    // handles the selection of a single result
     const handleResultClick = async (selection) => {
-        // obtain the user object for the id
-        const { user } = session;
-        // function takes in the selected flight
-        console.log('entered user choice into database:', selection);
-        // insert the selected data into the database
-        let { data, error } = await supabase
-            .from('testing')
-            .insert([
-                { name: selection.word, user_id: user.id, info: selection },
-            ])
-            .select();
+        // set the selection state to true
+        // set the selected result
+        // remove the unselected results from the results array
+        setIsSelected(true);
+        setSelectedResult(selection);
+        const newResults = [];
+        newResults.push(selection);
+        setResults(newResults);
+    };
 
-        console.log(data);
+    // once a single result selection is made
+    // this function inserts the result into the database
+    const insertResultSelection = async () => {
+        const { user } = session;
+        console.log('the selected result is:', selectedResult);
+        // insert the selected data into the database
+        // let { data, error } = await supabase
+        //     .from('testing')
+        //     .insert([
+        //         { name: selection.word, user_id: user.id, info: selection },
+        //     ])
+        //     .select();
+
+        // console.log(data);
+        console.log('selection insereted');
+        // reset the selection state
+        setIsSelected(false);
+        // send user to their list if successful
+        navigate('/');
     };
 
     return (
@@ -56,20 +81,39 @@ const Create = ({ session }) => {
                                     Select a result from below:
                                 </p>
                                 <ul>
-                                    {flightList.map((flight, idx) => (
+                                    {results.slice(0, 5).map((flight, idx) => (
                                         <li
                                             key={idx}
-                                            onClick={() =>
-                                                handleResultClick(flight)
-                                            }
-                                            className='text-gray-400 hover:bg-slate-700 w-4/12 py-1 px-2'
+                                            onClick={() => {
+                                                handleResultClick(flight);
+                                            }}
+                                            className={`text-gray-400 hover:bg-zinc-800 py-4 px-2 focus:ring focus:ring-violet-300`}
                                         >
-                                            <p className='border-l-4 border-blue-800 hover:border-violet-600 px-4'>
-                                                {flight.word}
-                                            </p>
+                                            <div className='flex flex-row space-x-4'>
+                                                <div className='border-l-4 mt-1 border-zinc-400 hover:border-gray-600 px-4 text-md text-gray-400'>
+                                                    {flight.word}
+                                                </div>
+                                                <div className='text-sm text-gray-900 px-4 py-2 bg-zinc-500 rounded-lg'>
+                                                    {flight.score}
+                                                </div>
+                                                <div className='text-sm font-medium text-gray-500 py-2'>
+                                                    Airline:{' '}
+                                                    {flight.numSyllables}
+                                                </div>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
+                                {isSelected ? (
+                                    <button
+                                        onClick={insertResultSelection}
+                                        className='bg-green-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium mt-4'
+                                    >
+                                        Add flight
+                                    </button>
+                                ) : (
+                                    <></>
+                                )}
                             </div>
                         )}
                     </div>
