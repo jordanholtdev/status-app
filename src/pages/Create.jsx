@@ -37,7 +37,6 @@ const Create = ({ session }) => {
     // this function inserts the result into the database
     const insertResultSelection = async () => {
         const { user } = session;
-        console.log('the selected result is:', selectedResult);
         // insert the selected data into the database
         let { data, error } = await supabase
             .from('testing')
@@ -97,7 +96,11 @@ const Create = ({ session }) => {
                                             }}
                                             className={`text-gray-400 hover:bg-zinc-800 py-4 px-2 focus:ring focus:ring-violet-300`}
                                         >
-                                            <div className='flex flex-row space-x-4'>
+                                            <div
+                                                className={
+                                                    'flex flex-row space-x-4'
+                                                }
+                                            >
                                                 <div className='border-l-4 mt-1 border-zinc-400 hover:border-gray-600 px-4 text-md text-gray-400'>
                                                     {flight.word}
                                                 </div>
