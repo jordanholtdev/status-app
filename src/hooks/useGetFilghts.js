@@ -9,7 +9,9 @@ export const useGetFlights = () => {
         setIsLoading(true);
         fetchFlights(flight)
             .then(setFlightList)
-            .then(() => setIsLoading(false));
+            .then(() => {
+                setIsLoading(false);
+            });
     };
 
     return { isLoading, flightList, getFlights };

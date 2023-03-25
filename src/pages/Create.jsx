@@ -55,7 +55,6 @@ const Create = ({ session }) => {
         }
         if (data) {
             // reset the selection state
-
             setIsSelected(false);
             // send user to their list if successful
             navigate('/flights');
@@ -102,7 +101,7 @@ const Create = ({ session }) => {
 
                                     <ul className='divide-y divide-dashed divide-zinc-700'>
                                         <SearchResultsList
-                                            onClick={handleResultClick}
+                                            onSelectResult={handleResultClick}
                                             results={results}
                                         />
                                     </ul>

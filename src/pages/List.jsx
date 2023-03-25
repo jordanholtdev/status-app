@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import Dashboard from '../components/Dashboard';
+import FlightsList from '../components/FlightsList';
 import PropTypes from 'prop-types';
 
 const List = ({ session }) => {
@@ -93,9 +94,22 @@ const List = ({ session }) => {
                 {notification.length === 0 ? (
                     <div>nothing</div>
                 ) : (
-                    <span className='relative flex h-3 w-3'>
-                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75'></span>
-                        <span className='relative inline-flex rounded-full h-3 w-3 bg-sky-500'></span>
+                    <span className='relative flex h-6 w-6'>
+                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75'></span>
+                        <svg
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 24 24'
+                            strokeWidth='1.5'
+                            stroke='red'
+                            className='w-6 h-6 animate-pulse'
+                        >
+                            <path
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                d='M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5'
+                            />
+                        </svg>
                     </span>
                 )}
             </div>
@@ -104,35 +118,10 @@ const List = ({ session }) => {
                     {loading ? (
                         <div className='text-white'>Loading</div>
                     ) : (
-                        <div>
-                            <div className='sm:columns-1 w-60'>
-                                {flights.map((flight, idx) => (
-                                    <div
-                                        key={idx}
-                                        className='container mx-auto overflow-hidden bg-zinc-800 shadow rounded-lg py-1 mt-4 w-full ring-1 ring-gray-700'
-                                    >
-                                        <div
-                                            className={
-                                                notification.id === flight.id
-                                                    ? 'px-4 py-5 sm:px-6'
-                                                    : 'px-4 py-5 sm:px-6 border-orange-600 border-dotted'
-                                            }
-                                        >
-                                            <p className='mt-1 max-w-2xl text-sm text-gray-400'>
-                                                {flight.name}
-                                            </p>
-                                            <p
-                                                onClick={() =>
-                                                    handleDelete(flight)
-                                                }
-                                            >
-                                                Delete me
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <FlightsList
+                            onDeleteFlight={handleDelete}
+                            flightResults={flights}
+                        />
                     )}
                 </div>
             </div>

@@ -1,6 +1,6 @@
 const SearchResultsList = (props) => {
     const onResultClick = (flight) => {
-        props.onClick(flight);
+        props.onSelectResult(flight);
     };
 
     const renderDate = (date) => {
