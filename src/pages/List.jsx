@@ -23,7 +23,6 @@ const List = ({ session }) => {
             if (error) {
                 console.warn(error);
             } else if (data) {
-                console.log('initial data', data);
                 setFlights(data);
             }
 
@@ -34,8 +33,6 @@ const List = ({ session }) => {
     }, [session]);
 
     useEffect(() => {
-        console.log('top function', flights);
-
         supabase
             .channel('any')
             .on(
@@ -49,11 +46,11 @@ const List = ({ session }) => {
                     );
                     switch (payload.eventType) {
                         case 'INSERT':
-                            console.log('insert realtime:');
+                            // console.log('insert realtime:');
                             setNotification(payload.new);
                             break;
                         case 'DELETE': {
-                            console.log('delete realtime:', payload.old);
+                            // console.log('delete realtime:', payload.old);
                             setNotification(payload.old);
                             break;
                         }
@@ -72,7 +69,6 @@ const List = ({ session }) => {
     // allow user to delete item from list
 
     const handleDelete = async (flight) => {
-        console.log('clicked, delete removing the folowwin:', flight);
         const { error } = await supabase
             .from('testing')
             .delete()
@@ -81,10 +77,7 @@ const List = ({ session }) => {
         if (error) {
             console.warn(error);
         }
-
-        console.log(flights.filter((item) => item.id !== flight.id));
         setFlights(flights.filter((item) => item.id !== flight.id));
-        console.log('database deleted success');
     };
 
     return (
