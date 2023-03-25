@@ -102,7 +102,7 @@ const Create = ({ session }) => {
 
                                     <ul className='divide-y divide-dashed divide-zinc-700'>
                                         <SearchResultsList
-                                            onClick={handleResultClick}
+                                            onSelectResult={handleResultClick}
                                             results={results}
                                         />
                                     </ul>
