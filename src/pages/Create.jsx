@@ -55,7 +55,6 @@ const Create = ({ session }) => {
         }
         if (data) {
             // reset the selection state
-
             setIsSelected(false);
             // send user to their list if successful
             navigate('/flights');
