@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import Dashboard from '../components/Dashboard';
 import FlightsList from '../components/FlightsList';
+import Notifications from '../components/Notifications';
 import PropTypes from 'prop-types';
 
 const List = ({ session }) => {
     const [loading, setLoading] = useState();
     const [flights, setFlights] = useState([]);
-    const [notification, setNotification] = useState([]);
 
     // fetch the saved flights from db
     // fetch only flights belonging to user
@@ -33,40 +33,6 @@ const List = ({ session }) => {
         getSavedFlights();
     }, [session]);
 
-    useEffect(() => {
-        supabase
-            .channel('any')
-            .on(
-                'postgres_changes',
-                { event: '*', schema: 'public', table: 'testing' },
-                (payload) => {
-                    console.log(
-                        'Change received - Realtime!',
-                        payload,
-                        flights
-                    );
-                    switch (payload.eventType) {
-                        case 'INSERT':
-                            // console.log('insert realtime:');
-                            setNotification(payload.new);
-                            break;
-                        case 'DELETE': {
-                            // console.log('delete realtime:', payload.old);
-                            setNotification(payload.old);
-                            break;
-                        }
-                        default:
-                            break;
-                    }
-                }
-            )
-            .subscribe();
-
-        return () => {
-            supabase.removeChannel;
-        };
-    }, []);
-
     // allow user to delete item from list
 
     const handleDelete = async (flight) => {
@@ -84,34 +50,14 @@ const List = ({ session }) => {
     return (
         <div>
             <Dashboard key={session.user.id} session={session} />
+            <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
                     Add flight
                 </h3>
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    Select a flight to track.{notification.id}
+                    Select a flight to track.
                 </p>
-                {notification.length === 0 ? (
-                    <div>nothing</div>
-                ) : (
-                    <span className='relative flex h-6 w-6'>
-                        <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75'></span>
-                        <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth='1.5'
-                            stroke='red'
-                            className='w-6 h-6 animate-pulse'
-                        >
-                            <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                d='M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0M3.124 7.5A8.969 8.969 0 015.292 3m13.416 0a8.969 8.969 0 012.168 4.5'
-                            />
-                        </svg>
-                    </span>
-                )}
             </div>
             <div className='border-t border-zinc-600'>
                 <div className='flex justify-center min-w-full mt-10 '>

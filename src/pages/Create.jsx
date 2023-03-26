@@ -1,6 +1,7 @@
 import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
 import Dashboard from '../components/Dashboard';
+import Notifications from '../components/Notifications';
 import { useEffect, useState } from 'react';
 import { useGetFlights } from '../hooks/useGetFilghts';
 import { useNavigate } from 'react-router-dom';
@@ -64,6 +65,7 @@ const Create = ({ session }) => {
     return (
         <div>
             <Dashboard key={session.user.id} session={session} />
+            <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
                     Add flight
