@@ -27,7 +27,7 @@ const Create = ({ session }) => {
         // getFlights(term);
 
         const { data, error } = await supabase.functions.invoke(
-            'flight-service',
+            'flight-lookup',
             {
                 body: { ident: term, depart_date: '2023-03-04' },
             }
