@@ -3,7 +3,7 @@ import SearchResultsList from '../components/SearchResultsList';
 import Dashboard from '../components/Dashboard';
 import Notifications from '../components/Notifications';
 import { useEffect, useState } from 'react';
-import { useGetFlights } from '../hooks/useGetFilghts';
+import { useGetFlights } from '../hooks/useGetFlights';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PropTypes from 'prop-types';
@@ -22,6 +22,9 @@ const Create = ({ session }) => {
     const onSearchSubmit = async (term) => {
         setIsSelected(false);
         getFlights(term);
+
+        const { data, error } = await supabase.functions.invoke('hello-world');
+        console.log(data, error);
     };
 
     // handles the selection of a single result
@@ -38,10 +41,12 @@ const Create = ({ session }) => {
 
     // this function inserts the result into the database
     const insertResultSelection = async () => {
+        // testing function
+
         const { user } = session;
         // insert the selected data into the database
         let { data, error } = await supabase
-            .from('testing')
+            .from('testing_flights')
             .insert([
                 {
                     name: selectedResult.word,
