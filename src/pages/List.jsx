@@ -17,7 +17,7 @@ const List = ({ session }) => {
             const { user } = session;
 
             let { data, error } = await supabase
-                .from('testing')
+                .from('testing_flights')
                 .select(`name, info, id`)
                 .eq('user_id', user.id);
 
@@ -37,7 +37,7 @@ const List = ({ session }) => {
 
     const handleDelete = async (flight) => {
         const { error } = await supabase
-            .from('testing')
+            .from('testing_flights')
             .delete()
             .eq('id', flight.id);
 
