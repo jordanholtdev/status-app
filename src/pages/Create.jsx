@@ -3,14 +3,16 @@ import SearchResultsList from '../components/SearchResultsList';
 import Dashboard from '../components/Dashboard';
 import Notifications from '../components/Notifications';
 import { useEffect, useState } from 'react';
-import { useGetFlights } from '../hooks/useGetFlights';
+// import { useGetFlights } from '../hooks/useGetFlights';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PropTypes from 'prop-types';
 
 const Create = ({ session }) => {
     const navigate = useNavigate();
-    const { isLoading, flightList, getFlights } = useGetFlights();
+    // const { isLoading, flightList, getFlights } = useGetFlights();
+    const [isLoading, setIsLoading] = useState(false);
+    const [flightList, setFlightList] = useState([]);
     const [isSelected, setIsSelected] = useState(null);
     const [selectedResult, setSelectedResult] = useState();
     const [results, setResults] = useState([]);
@@ -20,11 +22,19 @@ const Create = ({ session }) => {
     }, [flightList]);
 
     const onSearchSubmit = async (term) => {
+        setIsLoading(true);
         setIsSelected(false);
-        getFlights(term);
+        // getFlights(term);
 
-        const { data, error } = await supabase.functions.invoke('hello-world');
-        console.log(data, error);
+        const { data, error } = await supabase.functions.invoke(
+            'flight-lookup',
+            {
+                body: { ident: term, depart_date: '2023-03-04' },
+            }
+        );
+        console.log('testing data', data, error);
+        setFlightList(data.parsed);
+        setIsLoading(false);
     };
 
     // handles the selection of a single result
@@ -41,8 +51,6 @@ const Create = ({ session }) => {
 
     // this function inserts the result into the database
     const insertResultSelection = async () => {
-        // testing function
-
         const { user } = session;
         // insert the selected data into the database
         let { data, error } = await supabase
