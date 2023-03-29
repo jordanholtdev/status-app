@@ -32,8 +32,12 @@ const Create = ({ session }) => {
                 body: { ident: term, depart_date: '2023-03-04' },
             }
         );
-        console.log('testing data', data, error);
-        setFlightList(data.parsed);
+        console.log(
+            'search submit function invoking edge function flight-lookup:',
+            data,
+            error
+        );
+        setFlightList(data.results);
         setIsLoading(false);
     };
 
@@ -42,6 +46,8 @@ const Create = ({ session }) => {
         // set the selection state to true
         // set the selected result
         // remove the unselected results from the results array
+        console.log('result is selected:', selection);
+
         setIsSelected(true);
         setSelectedResult(selection);
         const newResults = [];
@@ -49,20 +55,14 @@ const Create = ({ session }) => {
         setResults(newResults);
     };
 
-    // this function inserts the result into the database
     const insertResultSelection = async () => {
-        const { user } = session;
-        // insert the selected data into the database
-        let { data, error } = await supabase
-            .from('testing_flights')
-            .insert([
-                {
-                    name: selectedResult.word,
-                    user_id: user.id,
-                    info: selectedResult,
-                },
-            ])
-            .select();
+        console.log('invoking the schedule-flight edge fucntion');
+        const { data, error } = await supabase.functions.invoke(
+            'schedule-flight',
+            {
+                body: { flight: selectedResult, depart_date: '2023-03-04' },
+            }
+        );
 
         if (error) {
             console.error(error);
