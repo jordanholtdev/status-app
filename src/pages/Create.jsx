@@ -2,6 +2,7 @@ import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
 import Dashboard from '../components/Dashboard';
 import Notifications from '../components/Notifications';
+import Loading from '../components/Loading';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
@@ -44,8 +45,6 @@ const Create = ({ session }) => {
         // set the selection state to true
         // set the selected result
         // remove the unselected results from the results array
-        console.log('result is selected:', selection);
-
         setIsSelected(true);
         setSelectedResult(selection);
         const newResults = [];
@@ -54,7 +53,6 @@ const Create = ({ session }) => {
     };
 
     const insertResultSelection = async () => {
-        console.log('invoking the schedule-flight edge fucntion');
         const { data, error } = await supabase.functions.invoke(
             'schedule-flight',
             {
@@ -91,7 +89,7 @@ const Create = ({ session }) => {
                         <div>
                             <SearchBar onSubmit={onSearchSubmit} />
                             {isLoading ? (
-                                <p className='text-white'>Loading</p>
+                                <Loading />
                             ) : (
                                 <div className='py-8'>
                                     {results.length === 0 ? (
