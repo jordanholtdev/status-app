@@ -78,9 +78,9 @@ const Create = ({ session }) => {
             <Dashboard key={session.user.id} session={session} />
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
-                <h3 className='text-base font-semibold leading-6 text-white'>
+                <h2 className='text-base font-semibold leading-6 text-white'>
                     Search for a flight
-                </h3>
+                </h2>
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
                     Enter a date & flight number
                 </p>
@@ -89,9 +89,6 @@ const Create = ({ session }) => {
                 <div className='flex justify-center mt-7 min-w-full'>
                     <div className='w-full sm:w-9/12 px-4'>
                         <div>
-                            <p className='text-sm text-gray-300 block leading-5 font-medium py-4'>
-                                Enter a flight number:
-                            </p>
                             <SearchBar onSubmit={onSearchSubmit} />
                             {isLoading ? (
                                 <p className='text-white'>Loading</p>
