@@ -3,14 +3,12 @@ import SearchResultsList from '../components/SearchResultsList';
 import Dashboard from '../components/Dashboard';
 import Notifications from '../components/Notifications';
 import { useEffect, useState } from 'react';
-// import { useGetFlights } from '../hooks/useGetFlights';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PropTypes from 'prop-types';
 
 const Create = ({ session }) => {
     const navigate = useNavigate();
-    // const { isLoading, flightList, getFlights } = useGetFlights();
     const [isLoading, setIsLoading] = useState(false);
     const [flightList, setFlightList] = useState([]);
     const [isSelected, setIsSelected] = useState(null);
@@ -81,22 +79,15 @@ const Create = ({ session }) => {
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
-                    Add flight
+                    Search for a flight
                 </h3>
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    Select a flight to track.
+                    Enter a date & flight number
                 </p>
             </div>
             <div className='border-t border-zinc-600'>
                 <div className='flex justify-center mt-7 min-w-full'>
                     <div className='w-full sm:w-9/12 px-4'>
-                        <div className='text-zinc-400 text-md mb-4'>
-                            <ol>
-                                <li>1. Enter a flight number</li>
-                                <li>2. Select a result</li>
-                                <li>3. Click the add flight button</li>
-                            </ol>
-                        </div>
                         <div>
                             <p className='text-sm text-gray-300 block leading-5 font-medium py-4'>
                                 Enter a flight number:
