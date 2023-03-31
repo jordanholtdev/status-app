@@ -20,7 +20,7 @@ const Create = ({ session }) => {
         setResults([...flightList]);
     }, [flightList]);
 
-    const onSearchSubmit = async (term) => {
+    const onSearchSubmit = async (flightLookupQuery) => {
         setIsLoading(true);
         setIsSelected(false);
         // getFlights(term);
@@ -28,16 +28,22 @@ const Create = ({ session }) => {
         const { data, error } = await supabase.functions.invoke(
             'flight-lookup',
             {
-                body: { ident: term, depart_date: '2023-03-04' },
+                body: flightLookupQuery,
             }
         );
-        console.log(
-            'search submit function invoking edge function flight-lookup:',
-            data,
-            error
-        );
-        setFlightList(data.results);
-        setIsLoading(false);
+
+        if (error) {
+            console.error(error);
+        }
+        if (data) {
+            console.log(
+                'search submit function invoking edge function flight-lookup:',
+                data,
+                error
+            );
+            setFlightList(data.results);
+            setIsLoading(false);
+        }
     };
 
     // handles the selection of a single result
