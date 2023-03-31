@@ -1,12 +1,12 @@
-import SearchBar from '../components/SearchBar';
-import SearchResultsList from '../components/SearchResultsList';
-import Dashboard from '../components/Dashboard';
-import Notifications from '../components/Notifications';
-import Loading from '../components/Loading';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PropTypes from 'prop-types';
+import Dashboard from '../components/Dashboard';
+import Loading from '../components/Loading';
+import Notifications from '../components/Notifications';
+import SearchBar from '../components/SearchBar';
+import SearchResultsList from '../components/SearchResultsList';
 
 const Create = ({ session }) => {
     const navigate = useNavigate();
@@ -23,7 +23,6 @@ const Create = ({ session }) => {
     const onSearchSubmit = async (flightLookupQuery) => {
         setIsLoading(true);
         setIsSelected(false);
-        // getFlights(term);
 
         const { data, error } = await supabase.functions.invoke(
             'flight-lookup',
@@ -36,13 +35,21 @@ const Create = ({ session }) => {
             console.error(error);
         }
         if (data) {
-            console.log(
-                'search submit function invoking edge function flight-lookup:',
-                data,
-                error
-            );
-            setFlightList(data.results);
-            setIsLoading(false);
+            // if data has results list results
+            // if lookup scheduled render details
+            // If not scheduled (past date out of range) render details
+            // If lookup was completed but returned no results, render no result found
+            if (data.lookupComplete === true) {
+                setFlightList(data.results);
+                setIsLoading(false);
+            } else if (data.isScheduled === true) {
+                console.log('The lookup was scheduled');
+            } else {
+                console.log(
+                    'The lookup was not scheduled. Too far in the past'
+                );
+                setFlightList(data.results);
+            }
         }
     };
 
@@ -58,7 +65,7 @@ const Create = ({ session }) => {
         setResults(newResults);
     };
 
-    const insertResultSelection = async () => {
+    const scheduleResultSelection = async () => {
         const { data, error } = await supabase.functions.invoke(
             'schedule-flight',
             {
@@ -114,7 +121,7 @@ const Create = ({ session }) => {
                                     </ul>
                                     {isSelected ? (
                                         <button
-                                            onClick={insertResultSelection}
+                                            onClick={scheduleResultSelection}
                                             className='bg-green-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium mt-4'
                                         >
                                             Add flight
