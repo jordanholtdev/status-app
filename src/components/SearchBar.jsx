@@ -7,8 +7,13 @@ const SearchBar = (props) => {
 
     const onFormSubmit = (e) => {
         e.preventDefault();
-        // TODO: pass in the date
-        props.onSubmit(term);
+
+        const flightLookupQuery = {
+            term: term,
+            selected_date: selectedDate,
+        };
+
+        props.onSubmit(flightLookupQuery);
         setTerm('');
     };
 

@@ -1,12 +1,12 @@
-import SearchBar from '../components/SearchBar';
-import SearchResultsList from '../components/SearchResultsList';
-import Dashboard from '../components/Dashboard';
-import Notifications from '../components/Notifications';
-import Loading from '../components/Loading';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PropTypes from 'prop-types';
+import Dashboard from '../components/Dashboard';
+import Loading from '../components/Loading';
+import Notifications from '../components/Notifications';
+import SearchBar from '../components/SearchBar';
+import SearchResultsList from '../components/SearchResultsList';
 
 const Create = ({ session }) => {
     const navigate = useNavigate();
@@ -14,30 +14,52 @@ const Create = ({ session }) => {
     const [flightList, setFlightList] = useState([]);
     const [isSelected, setIsSelected] = useState(null);
     const [selectedResult, setSelectedResult] = useState();
+    const [lookupResults, setLookupResults] = useState();
     const [results, setResults] = useState([]);
 
     useEffect(() => {
         setResults([...flightList]);
     }, [flightList]);
 
-    const onSearchSubmit = async (term) => {
+    const onSearchSubmit = async (flightLookupQuery) => {
         setIsLoading(true);
         setIsSelected(false);
-        // getFlights(term);
 
         const { data, error } = await supabase.functions.invoke(
             'flight-lookup',
             {
-                body: { ident: term, depart_date: '2023-03-04' },
+                body: flightLookupQuery,
             }
         );
-        console.log(
-            'search submit function invoking edge function flight-lookup:',
-            data,
-            error
-        );
-        setFlightList(data.results);
-        setIsLoading(false);
+
+        if (error) {
+            console.error(error);
+        }
+        if (data) {
+            console.log(data);
+            // set lookup results state
+            // if lookup scheduled render details
+            // If not scheduled (past date out of range) render details
+            // If lookup was completed but returned no results, render no result found
+            setLookupResults(data);
+            if (data.lookupComplete === true) {
+                setFlightList(data.results);
+                setIsLoading(false);
+            } else if (data.isScheduled === true) {
+                console.log('The lookup was scheduled');
+                // set scheduled message
+                setFlightList(data.results);
+                setIsLoading(false);
+            } else if (data.lookupStatus === 'Not Scheduled') {
+                console.log(
+                    'The lookup was not scheduled. Too far in the past'
+                );
+                setFlightList(data.results);
+                setIsLoading(false);
+            } else {
+                console.log('no results');
+            }
+        }
     };
 
     // handles the selection of a single result
@@ -52,21 +74,20 @@ const Create = ({ session }) => {
         setResults(newResults);
     };
 
-    const insertResultSelection = async () => {
+    const scheduleResultSelection = async () => {
         const { data, error } = await supabase.functions.invoke(
             'schedule-flight',
             {
                 body: { flight: selectedResult, depart_date: '2023-03-04' },
             }
         );
-
         if (error) {
             console.error(error);
         }
         if (data) {
             // reset the selection state
             setIsSelected(false);
-            // send user to their list if successful
+            // route user to flight list if successful
             navigate('/flights');
         }
     };
@@ -90,16 +111,9 @@ const Create = ({ session }) => {
                             <SearchBar onSubmit={onSearchSubmit} />
                             {isLoading ? (
                                 <Loading />
-                            ) : (
-                                <div className='py-8'>
-                                    {results.length === 0 ? (
-                                        <></>
-                                    ) : (
-                                        <p className='text-sm text-gray-300 block leading-5 font-medium py-4'>
-                                            Select & save a result:
-                                        </p>
-                                    )}
-
+                            ) : results.length > 0 &&
+                              lookupResults.lookupComplete === true ? (
+                                <div>
                                     <ul className='divide-y divide-dashed divide-zinc-700'>
                                         <SearchResultsList
                                             onSelectResult={handleResultClick}
@@ -108,7 +122,7 @@ const Create = ({ session }) => {
                                     </ul>
                                     {isSelected ? (
                                         <button
-                                            onClick={insertResultSelection}
+                                            onClick={scheduleResultSelection}
                                             className='bg-green-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium mt-4'
                                         >
                                             Add flight
@@ -117,6 +131,17 @@ const Create = ({ session }) => {
                                         <></>
                                     )}
                                 </div>
+                            ) : results.length &&
+                              lookupResults.isScheduled === true ? (
+                                <div>We have scheduled your search</div>
+                            ) : results.length &&
+                              lookupResults.lookupStatus === 'Not Scheduled' ? (
+                                <div>
+                                    Not Scheduled. Date too far in the past - 10
+                                    days historical
+                                </div>
+                            ) : (
+                                <></>
                             )}
                         </div>
                     </div>
