@@ -44,18 +44,18 @@ const Create = ({ session }) => {
             // If lookup was completed but returned no results, render no result found
             setLookupResults(data);
             if (data.lookupComplete === true) {
-                setFlightList(data.results);
+                setFlightList(data.results.flights);
                 setIsLoading(false);
             } else if (data.isScheduled === true) {
                 console.log('The lookup was scheduled');
                 // set scheduled message
-                setFlightList(data.results);
+                setFlightList(data.results.flights);
                 setIsLoading(false);
             } else if (data.lookupStatus === 'Not Scheduled') {
                 console.log(
                     'The lookup was not scheduled. Too far in the past'
                 );
-                setFlightList(data.results);
+                setFlightList(data.results.flights);
                 setIsLoading(false);
             } else {
                 console.log('no results');
@@ -89,6 +89,7 @@ const Create = ({ session }) => {
             // reset the selection state
             setIsSelected(false);
             // route user to flight list if successful
+            console.log(data);
             navigate('/flights');
         }
     };
