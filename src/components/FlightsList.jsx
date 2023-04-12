@@ -41,7 +41,7 @@ const FlightsList = (props) => {
                                     <div className='container'>
                                         <div className='text-slate-300 text-lg leading-none font-semibold tracking-wide'>
                                             {/* flight number */}
-                                            {flight.name}
+                                            {flight.ident}
                                         </div>
 
                                         <div className='flex space-x-2 space-y-2 mt-1'>
@@ -58,7 +58,7 @@ const FlightsList = (props) => {
                                 <div className='flex-1 h-full'>
                                     <div className='text-green-400/80 text-md font-medium'>
                                         {/* Flight Scheduled off - date / time */}
-                                        2021-12-31
+                                        {flight.scheduled_off}
                                     </div>
                                     <div className='text-base text-gray-500 mt-1'>
                                         <div className='text-slate-500 flex-1 text-sm'>
@@ -69,11 +69,11 @@ const FlightsList = (props) => {
                                 </div>
                                 <div className='flex-1 h-full'>
                                     <div className='text-slate-400/80 text-md font-medium'>
-                                        From:
+                                        From: {flight.origin_code_iata}
                                     </div>
                                     <div className='text-slate-400/80 text-sm font-medium mt-1'>
                                         {/* actual_off == null (not departed yet) */}
-                                        Dest:
+                                        Dest: {flight.destination_code_iata}
                                     </div>
                                 </div>
                                 <div className='flex-none'>

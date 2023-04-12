@@ -9,7 +9,7 @@ const SearchBar = (props) => {
         e.preventDefault();
 
         const flightLookupQuery = {
-            term: term,
+            ident: term,
             selected_date: selectedDate,
         };
 
