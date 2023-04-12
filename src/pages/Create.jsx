@@ -37,7 +37,6 @@ const Create = ({ session }) => {
             console.error(error);
         }
         if (data) {
-            console.log(data);
             // set lookup results state
             // if lookup scheduled render details
             // If not scheduled (past date out of range) render details
@@ -47,15 +46,8 @@ const Create = ({ session }) => {
                 setFlightList(data.results.flights);
                 setIsLoading(false);
             } else if (data.isScheduled === true) {
-                console.log('The lookup was scheduled');
-                // set scheduled message
-                setFlightList(data.results.flights);
                 setIsLoading(false);
             } else if (data.lookupStatus === 'Not Scheduled') {
-                console.log(
-                    'The lookup was not scheduled. Too far in the past'
-                );
-                setFlightList(data.results.flights);
                 setIsLoading(false);
             } else {
                 console.log('no results');
@@ -114,7 +106,7 @@ const Create = ({ session }) => {
                             {isLoading ? (
                                 <Loading />
                             ) : results.length > 0 &&
-                              lookupResults.lookupComplete === true ? (
+                              lookupResults?.lookupComplete === true ? (
                                 <div>
                                     <ul className='divide-y divide-dashed divide-zinc-700'>
                                         <SearchResultsList
@@ -133,14 +125,22 @@ const Create = ({ session }) => {
                                         <></>
                                     )}
                                 </div>
-                            ) : results.length &&
-                              lookupResults.isScheduled === true ? (
-                                <div>We have scheduled your search</div>
-                            ) : results.length &&
-                              lookupResults.lookupStatus === 'Not Scheduled' ? (
-                                <div>
-                                    Not Scheduled. Date too far in the past - 10
-                                    days historical
+                            ) : results.length === 0 &&
+                              lookupResults?.isScheduled === true ? (
+                                <div className='overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-4'>
+                                    <div className='text-sm text-gray-500'>
+                                        We have scheduled your search. View your
+                                        upcoming scheduled searches here.
+                                    </div>
+                                </div>
+                            ) : results.length === 0 &&
+                              lookupResults?.lookupStatus ===
+                                  'Not Scheduled' ? (
+                                <div className='overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-4'>
+                                    <div className='text-sm text-gray-500'>
+                                        Not Scheduled. Date too far in the past
+                                        - 10 days historical{' '}
+                                    </div>
                                 </div>
                             ) : (
                                 <></>

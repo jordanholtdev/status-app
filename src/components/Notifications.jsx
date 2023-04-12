@@ -10,7 +10,7 @@ const Notifications = () => {
             .channel('any')
             .on(
                 'postgres_changes',
-                { event: '*', schema: 'public', table: 'testing_flights' },
+                { event: '*', schema: 'public', table: 'flights' },
                 (payload) => {
                     switch (payload.eventType) {
                         case 'INSERT':
