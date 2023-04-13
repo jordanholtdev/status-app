@@ -1,51 +1,53 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import Dashboard from '../components/Dashboard';
-import FlightsList from '../components/FlightsList';
 import Notifications from '../components/Notifications';
+import ScheduledList from '../components/ScheduledList';
 import PropTypes from 'prop-types';
 import Footer from '../components/Footer';
 
-const List = ({ session }) => {
+const Scheduled = ({ session }) => {
     const [loading, setLoading] = useState();
-    const [flights, setFlights] = useState([]);
+    const [scheduledFlights, setScheduledFlights] = useState([]);
 
     // fetch the saved flights from db
     // fetch only flights belonging to user
     useEffect(() => {
-        async function getSavedFlights() {
+        async function getScheduledFlights() {
             setLoading(true);
             const { user } = session;
 
             let { data, error } = await supabase
-                .from('flights')
+                .from('schedule_lookup')
                 .select(`*`)
                 .eq('user_id', user.id);
 
             if (error) {
                 console.warn(error);
             } else if (data) {
-                setFlights(data);
+                setScheduledFlights(data);
             }
 
             setLoading(false);
         }
 
-        getSavedFlights();
+        getScheduledFlights();
     }, [session]);
 
     // allow user to delete item from list
 
     const handleDelete = async (flight) => {
         const { error } = await supabase
-            .from('flights')
+            .from('schedule_lookup')
             .delete()
             .eq('id', flight.id);
 
         if (error) {
             console.warn(error);
         }
-        setFlights(flights.filter((item) => item.id !== flight.id));
+        setScheduledFlights(
+            scheduledFlights.filter((item) => item.id !== flight.id)
+        );
     };
 
     return (
@@ -54,10 +56,10 @@ const List = ({ session }) => {
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
-                    Add flight
+                    Scheduled
                 </h3>
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    Select a flight to track.
+                    These are searches that are scheduled.
                 </p>
             </div>
             <div className='border-t border-zinc-600'>
@@ -65,9 +67,9 @@ const List = ({ session }) => {
                     {loading ? (
                         <div className='text-white'>Loading</div>
                     ) : (
-                        <FlightsList
+                        <ScheduledList
                             onDeleteFlight={handleDelete}
-                            flightResults={flights}
+                            scheduledFlights={scheduledFlights}
                         />
                     )}
                 </div>
@@ -77,8 +79,8 @@ const List = ({ session }) => {
     );
 };
 
-List.propTypes = {
+Scheduled.propTypes = {
     session: PropTypes.object.isRequired,
 };
 
-export default List;
+export default Scheduled;

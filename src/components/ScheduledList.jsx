@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const FlightsList = (props) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-
+const ScheduledList = (props) => {
     const onDeleteClick = (flight) => {
         props.onDeleteFlight(flight);
     };
 
     return (
         <div className='divide-y divide-dashed divide-zinc-700 w-full sm:w-1/2 px-2'>
-            {props.flightResults.map((flight, idx) => (
+            {props.scheduledFlights.map((flight, idx) => (
                 <div key={idx}>
                     <div className='grid grid-rows-2'>
                         <div className='flex pt-3 pl-3 pr-4 text-sm hover:bg-zinc-800/70'>
@@ -19,10 +16,7 @@ const FlightsList = (props) => {
                                     'flex w-0 flex-1 items-center justify-center'
                                 }
                             >
-                                <div
-                                    className='flex-none h-full w-10'
-                                    onClick={() => setIsExpanded(!isExpanded)}
-                                >
+                                <div className='flex-none h-full w-10'>
                                     <svg
                                         xmlns='http://www.w3.org/2000/svg'
                                         viewBox='0 0 24 24'
@@ -46,7 +40,7 @@ const FlightsList = (props) => {
 
                                         <div className='flex space-x-2 space-y-2 mt-1'>
                                             <div className='text-slate-500 text-sm'>
-                                                Status:
+                                                Date: {flight.flight_date}
                                             </div>
                                             <span className='relative flex h-2 w-2'>
                                                 <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75'></span>
@@ -57,23 +51,14 @@ const FlightsList = (props) => {
                                 </div>
                                 <div className='flex-1 h-full'>
                                     <div className='text-green-400/80 text-md font-medium'>
-                                        {/* Flight Scheduled off - date / time */}
-                                        {flight.scheduled_off}
+                                        Search created:
+                                        {flight.created_at}
                                     </div>
                                     <div className='text-base text-gray-500 mt-1'>
                                         <div className='text-slate-500 flex-1 text-sm'>
-                                            {/* aircraft_type */}
-                                            Aircraft: {flight.aircraft_type}
+                                            Search complete:{' '}
+                                            {flight.lookup_complete}
                                         </div>
-                                    </div>
-                                </div>
-                                <div className='flex-1 h-full'>
-                                    <div className='text-slate-400/80 text-md font-medium'>
-                                        From: {flight.origin_code_iata}
-                                    </div>
-                                    <div className='text-slate-400/80 text-sm font-medium mt-1'>
-                                        {/* actual_off == null (not departed yet) */}
-                                        Dest: {flight.destination_code_iata}
                                     </div>
                                 </div>
                                 <div className='flex-none'>
@@ -100,46 +85,6 @@ const FlightsList = (props) => {
                                 </div>
                             </div>
                         </div>
-
-                        {isExpanded && (
-                            <div className='grid grid-rows-2 grid-flow-col gap-2 text-zinc-400/80 py-2 bg-zinc-900'>
-                                <div className='row-span-4 flex justify-center'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='currentColor'
-                                        className='w-6 h-6 fill-slate-700'
-                                    >
-                                        <path
-                                            fillRule='evenodd'
-                                            d='M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z'
-                                            clipRule='evenodd'
-                                        />
-                                    </svg>
-                                </div>
-                                <div className='col-span-1 text-sm text-gray-500/80 font-medium'>
-                                    Aircraft: {flight.aircraft_type}
-                                </div>
-                                <div className='row-span-1 col-span-1 text-sm text-yellow-300/80 font-light'>
-                                    Status summary is this going to long? A few
-                                    paragraphs?
-                                </div>
-                                <div className='row-span-3 col-span-2 text-sm flex space-x-2 space-y-2'>
-                                    <div className='text-slate-500 text-sm'>
-                                        Scheduled Off:{' '}
-                                        <span className='text-green-500'>
-                                            {flight.scheduled_off}
-                                        </span>
-                                        <div className='text-slate-500 text-sm'>
-                                            cancelled:{' '}
-                                            <span className='text-green-500'>
-                                                No
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                     </div>
                 </div>
             ))}
@@ -147,9 +92,9 @@ const FlightsList = (props) => {
     );
 };
 
-FlightsList.propTypes = {
+ScheduledList.propTypes = {
     onDeleteFlight: PropTypes.func.isRequired,
-    flightResults: PropTypes.array.isRequired,
+    scheduledFlights: PropTypes.array.isRequired,
 };
 
-export default FlightsList;
+export default ScheduledList;
