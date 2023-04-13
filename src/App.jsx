@@ -8,7 +8,8 @@ import {
 } from '@supabase/auth-ui-shared';
 import Account from './pages/Account';
 import Create from './pages/Create';
-import List from './pages/List';
+import List from './pages/Flights';
+import ScheduleList from './pages/Scheduled';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -73,6 +74,19 @@ function App() {
                                 <Auth />
                             ) : (
                                 <List key={session.user.id} session={session} />
+                            )
+                        }
+                    />
+                    <Route
+                        path='/scheduled'
+                        element={
+                            !session ? (
+                                <Auth />
+                            ) : (
+                                <ScheduleList
+                                    key={session.user.id}
+                                    session={session}
+                                />
                             )
                         }
                     />

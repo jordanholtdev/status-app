@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Dashboard from '../components/Dashboard';
 import Loading from '../components/Loading';
@@ -130,7 +131,14 @@ const Create = ({ session }) => {
                                 <div className='overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-4'>
                                     <div className='text-sm text-gray-500'>
                                         We have scheduled your search. View your
-                                        upcoming scheduled searches here.
+                                        upcoming{' '}
+                                        <Link
+                                            to='/scheduled'
+                                            className='text-gray-400 hover:bg-gray-700 hover:text-white '
+                                        >
+                                            scheduled searches here.
+                                        </Link>
+                                        .
                                     </div>
                                 </div>
                             ) : results.length === 0 &&
