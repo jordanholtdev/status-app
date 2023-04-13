@@ -9,7 +9,7 @@ import {
 import Account from './pages/Account';
 import Create from './pages/Create';
 import List from './pages/Flights';
-import ScheduleList from './pages/Scheduled';
+import Scheduled from './pages/Scheduled';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -83,7 +83,7 @@ function App() {
                             !session ? (
                                 <Auth />
                             ) : (
-                                <ScheduleList
+                                <Scheduled
                                     key={session.user.id}
                                     session={session}
                                 />

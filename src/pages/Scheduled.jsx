@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import Dashboard from '../components/Dashboard';
-
 import Notifications from '../components/Notifications';
+import ScheduledList from '../components/ScheduledList';
 import PropTypes from 'prop-types';
 import Footer from '../components/Footer';
 
-const ScheduleList = ({ session }) => {
+const Scheduled = ({ session }) => {
     const [loading, setLoading] = useState();
     const [scheduledFlights, setScheduledFlights] = useState([]);
 
@@ -36,19 +36,19 @@ const ScheduleList = ({ session }) => {
 
     // allow user to delete item from list
 
-    // const handleDelete = async (flight) => {
-    //     const { error } = await supabase
-    //         .from('flights')
-    //         .delete()
-    //         .eq('id', flight.id);
+    const handleDelete = async (flight) => {
+        const { error } = await supabase
+            .from('schedule_lookup')
+            .delete()
+            .eq('id', flight.id);
 
-    //     if (error) {
-    //         console.warn(error);
-    //     }
-    //     setScheduledFlights(
-    //         scheduledFlights.filter((item) => item.id !== flight.id)
-    //     );
-    // };
+        if (error) {
+            console.warn(error);
+        }
+        setScheduledFlights(
+            scheduledFlights.filter((item) => item.id !== flight.id)
+        );
+    };
 
     return (
         <div>
@@ -67,13 +67,10 @@ const ScheduleList = ({ session }) => {
                     {loading ? (
                         <div className='text-white'>Loading</div>
                     ) : (
-                        <div>
-                            {/* replace with list component */}
-                            test
-                            {scheduledFlights.map((flight) => (
-                                <div key={flight.ident}>test</div>
-                            ))}
-                        </div>
+                        <ScheduledList
+                            onDeleteFlight={handleDelete}
+                            scheduledFlights={scheduledFlights}
+                        />
                     )}
                 </div>
             </div>
@@ -82,8 +79,8 @@ const ScheduleList = ({ session }) => {
     );
 };
 
-ScheduleList.propTypes = {
+Scheduled.propTypes = {
     session: PropTypes.object.isRequired,
 };
 
-export default ScheduleList;
+export default Scheduled;
