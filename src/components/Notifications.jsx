@@ -21,6 +21,14 @@ const Notifications = () => {
                                 message: `${payload.new.name} sucessfully added.`,
                             });
                             break;
+                        case 'UPDATE':
+                            // console.log('insert realtime:');
+                            setIsNotification(true);
+                            setNotification({
+                                eventType: payload.eventType,
+                                message: `Your flight information has been updated.`,
+                            });
+                            break;
                         case 'DELETE': {
                             setIsNotification(true);
                             setNotification({
@@ -64,7 +72,7 @@ const Notifications = () => {
                                     className={`animate-ping absolute inline-flex h-full w-full rounded-full ${
                                         notification.eventType === 'INSERT'
                                             ? 'bg-green-400'
-                                            : 'bg-red-300'
+                                            : 'bg-yellow-400'
                                     } opacity-75`}
                                 ></span>
                                 <svg
@@ -75,7 +83,7 @@ const Notifications = () => {
                                     stroke={`${
                                         notification.eventType === 'INSERT'
                                             ? 'green'
-                                            : 'red'
+                                            : 'yellow'
                                     }`}
                                     className='w-6 h-6 animate-pulse'
                                 >
@@ -99,7 +107,7 @@ const Notifications = () => {
                                     xmlns='http://www.w3.org/2000/svg'
                                     viewBox='0 0 24 24'
                                     fill='currentColor'
-                                    className='w-5 h-5 fill-lime-300/70 hover:fill-lime-300 hover:first-letter:first-line:cursor-pointer'
+                                    className='w-5 h-5 fill-gray-300/70 hover:fill-yellow-300 hover:first-letter:first-line:cursor-pointer'
                                 >
                                     <path
                                         fillRule='evenodd'
