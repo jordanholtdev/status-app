@@ -14,7 +14,6 @@ const Notifications = () => {
                 (payload) => {
                     switch (payload.eventType) {
                         case 'INSERT':
-                            // console.log('insert realtime:');
                             setIsNotification(true);
                             setNotification({
                                 eventType: payload.eventType,
@@ -22,7 +21,6 @@ const Notifications = () => {
                             });
                             break;
                         case 'UPDATE':
-                            // console.log('insert realtime:');
                             setIsNotification(true);
                             setNotification({
                                 eventType: payload.eventType,
