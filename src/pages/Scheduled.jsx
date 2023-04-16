@@ -20,7 +20,8 @@ const Scheduled = ({ session }) => {
             let { data, error } = await supabase
                 .from('schedule_lookup')
                 .select(`*`)
-                .eq('user_id', user.id);
+                .eq('user_id', user.id)
+                .eq('lookup_complete', false);
 
             if (error) {
                 console.warn(error);
