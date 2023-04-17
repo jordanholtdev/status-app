@@ -2,7 +2,15 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const FlightsList = (props) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(
+        Array(props.flightResults.length).fill(false)
+    );
+
+    const toggleExpanded = (index) => {
+        const newExpanded = [...expanded];
+        newExpanded[index] = !newExpanded[index];
+        setExpanded(newExpanded);
+    };
 
     const onDeleteClick = (flight) => {
         props.onDeleteFlight(flight);
@@ -21,7 +29,7 @@ const FlightsList = (props) => {
                             >
                                 <div
                                     className='flex-none h-full w-10'
-                                    onClick={() => setIsExpanded(!isExpanded)}
+                                    onClick={() => toggleExpanded(idx)}
                                 >
                                     <svg
                                         xmlns='http://www.w3.org/2000/svg'
@@ -101,7 +109,7 @@ const FlightsList = (props) => {
                             </div>
                         </div>
 
-                        {isExpanded && (
+                        {expanded[idx] && (
                             <div className='grid grid-rows-2 grid-flow-col gap-2 text-zinc-400/80 py-2 bg-zinc-900'>
                                 <div className='row-span-4 flex justify-center'>
                                     <svg
