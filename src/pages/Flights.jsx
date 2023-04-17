@@ -37,15 +37,22 @@ const List = ({ session }) => {
     // allow user to delete item from list
 
     const handleDelete = async (flight) => {
-        const { error } = await supabase
-            .from('flights')
-            .delete()
-            .eq('id', flight.id);
+        // Ask user to confirm deletion of flight
+        const confirm = window.confirm(
+            `Are you sure you want to delete ${flight.ident} to ${flight.destination_city}?`
+        );
 
-        if (error) {
-            console.warn(error);
+        if (confirm) {
+            const { error } = await supabase
+                .from('flights')
+                .delete()
+                .eq('id', flight.id);
+
+            if (error) {
+                console.warn(error);
+            }
+            setFlights(flights.filter((item) => item.id !== flight.id));
         }
-        setFlights(flights.filter((item) => item.id !== flight.id));
     };
 
     return (

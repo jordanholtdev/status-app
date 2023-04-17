@@ -2,10 +2,45 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const FlightsList = (props) => {
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(
+        Array(props.flightResults.length).fill(false)
+    );
 
-    const onDeleteClick = (flight) => {
+    const toggleExpanded = (index) => {
+        const newExpanded = [...expanded];
+        newExpanded[index] = !newExpanded[index];
+        setExpanded(newExpanded);
+    };
+
+    const handleDelete = (flight) => {
         props.onDeleteFlight(flight);
+    };
+
+    // Function to format the date
+    // It takes in a date string and returns a formatted date string in the format of YYYY-MM-DD
+    const formatDate = (date) => {
+        const newDate = new Date(date);
+        const options = {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            timeZoneName: 'short',
+        };
+        const formattedDate = newDate.toLocaleDateString('en-US', options);
+
+        return formattedDate;
+    };
+
+    // Function to convert seconds to HH:MM:SS
+    // It takes in a number of seconds and returns a string in the format of HH:MM:SS
+    const convertSecondsToHHMMSS = (seconds) => {
+        const date = new Date(null);
+        date.setSeconds(seconds);
+        const result = date.toISOString().substr(11, 8);
+        return result;
     };
 
     return (
@@ -21,7 +56,7 @@ const FlightsList = (props) => {
                             >
                                 <div
                                     className='flex-none h-full w-10'
-                                    onClick={() => setIsExpanded(!isExpanded)}
+                                    onClick={() => toggleExpanded(idx)}
                                 >
                                     <svg
                                         xmlns='http://www.w3.org/2000/svg'
@@ -43,7 +78,6 @@ const FlightsList = (props) => {
                                             {/* flight number */}
                                             {flight.ident}
                                         </div>
-
                                         <div className='flex space-x-2 space-y-2 mt-1'>
                                             <div className='text-slate-500 text-sm'>
                                                 Status:
@@ -57,13 +91,14 @@ const FlightsList = (props) => {
                                 </div>
                                 <div className='flex-1 h-full'>
                                     <div className='text-green-400/80 text-md font-medium'>
-                                        {/* Flight Scheduled off - date / time */}
-                                        {flight.scheduled_off}
+                                        {formatDate(flight.scheduled_off)}
                                     </div>
                                     <div className='text-base text-gray-500 mt-1'>
                                         <div className='text-slate-500 flex-1 text-sm'>
-                                            {/* aircraft_type */}
-                                            Aircraft: {flight.aircraft_type}
+                                            Destination:{' '}
+                                            <span className='text-slate-400'>
+                                                {flight.destination_name}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -78,9 +113,9 @@ const FlightsList = (props) => {
                                 </div>
                                 <div className='flex-none'>
                                     <a
-                                        onClick={() => onDeleteClick(flight)}
+                                        onClick={() => handleDelete(flight)}
                                         type='button'
-                                        className='px-2 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                        className='px-2 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
                                     >
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
@@ -88,7 +123,7 @@ const FlightsList = (props) => {
                                             viewBox='0 0 24 24'
                                             strokeWidth='1.5'
                                             stroke='currentColor'
-                                            className='w-6 h-6 fill-slate-600'
+                                            className='w-6 h-6 fill-slate-700 hover:fill-red-400 hover:cursor-pointer'
                                         >
                                             <path
                                                 strokeLinecap='round'
@@ -101,7 +136,7 @@ const FlightsList = (props) => {
                             </div>
                         </div>
 
-                        {isExpanded && (
+                        {expanded[idx] && (
                             <div className='grid grid-rows-2 grid-flow-col gap-2 text-zinc-400/80 py-2 bg-zinc-900'>
                                 <div className='row-span-4 flex justify-center'>
                                     <svg
@@ -121,19 +156,56 @@ const FlightsList = (props) => {
                                     Aircraft: {flight.aircraft_type}
                                 </div>
                                 <div className='row-span-1 col-span-1 text-sm text-yellow-300/80 font-light'>
-                                    Status summary is this going to long? A few
-                                    paragraphs?
+                                    Status summary is this going to long?
                                 </div>
                                 <div className='row-span-3 col-span-2 text-sm flex space-x-2 space-y-2'>
                                     <div className='text-slate-500 text-sm'>
-                                        Scheduled Off:{' '}
+                                        <div className='text-slate-500 text-sm'>
+                                            Origin:
+                                            <span className='text-green-500'>
+                                                {flight.origin_name}
+                                            </span>
+                                        </div>
+                                        <div className='text-slate-500 text-sm'>
+                                            Destination Airport:
+                                            <span className='text-green-500'>
+                                                {flight.destination_name}
+                                            </span>
+                                        </div>
+                                        Destination City:
                                         <span className='text-green-500'>
-                                            {flight.scheduled_off}
+                                            {flight.destination_city}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className='row-span-3 col-span-2 text-sm flex space-x-2 space-y-2'>
+                                    <div className='text-slate-500 text-sm'>
+                                        <div className='text-slate-500 text-sm'>
+                                            Scheduled gate departure:
+                                            <span className='text-green-500'>
+                                                {formatDate(
+                                                    flight.scheduled_out
+                                                )}
+                                            </span>
+                                        </div>
+                                        Scheduled runway departure:{' '}
+                                        <span className='text-green-500'>
+                                            {formatDate(flight.scheduled_off)}
                                         </span>
                                         <div className='text-slate-500 text-sm'>
-                                            cancelled:{' '}
+                                            Scheduled gate arrival:
                                             <span className='text-green-500'>
-                                                No
+                                                {formatDate(
+                                                    flight.scheduled_on
+                                                )}
+                                            </span>
+                                        </div>
+                                        <div className='text-slate-500 text-sm'>
+                                            Runway-to-runway duration:
+                                            <span className='text-green-500'>
+                                                {convertSecondsToHHMMSS(
+                                                    flight.filed_ete
+                                                )}
                                             </span>
                                         </div>
                                     </div>
