@@ -4,6 +4,7 @@ import Dashboard from '../components/Dashboard';
 import FlightsList from '../components/FlightsList';
 import Notifications from '../components/Notifications';
 import PropTypes from 'prop-types';
+import Footer from '../components/Footer';
 
 const List = ({ session }) => {
     const [loading, setLoading] = useState();
@@ -17,8 +18,8 @@ const List = ({ session }) => {
             const { user } = session;
 
             let { data, error } = await supabase
-                .from('testing_flights')
-                .select(`name, info, id`)
+                .from('flights')
+                .select(`*`)
                 .eq('user_id', user.id);
 
             if (error) {
@@ -36,15 +37,22 @@ const List = ({ session }) => {
     // allow user to delete item from list
 
     const handleDelete = async (flight) => {
-        const { error } = await supabase
-            .from('testing_flights')
-            .delete()
-            .eq('id', flight.id);
+        // Ask user to confirm deletion of flight
+        const confirm = window.confirm(
+            `Are you sure you want to delete ${flight.ident} to ${flight.destination_city}?`
+        );
 
-        if (error) {
-            console.warn(error);
+        if (confirm) {
+            const { error } = await supabase
+                .from('flights')
+                .delete()
+                .eq('id', flight.id);
+
+            if (error) {
+                console.warn(error);
+            }
+            setFlights(flights.filter((item) => item.id !== flight.id));
         }
-        setFlights(flights.filter((item) => item.id !== flight.id));
     };
 
     return (
@@ -53,10 +61,10 @@ const List = ({ session }) => {
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
-                    Add flight
+                    Flights
                 </h3>
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    Select a flight to track.
+                    Your flights.
                 </p>
             </div>
             <div className='border-t border-zinc-600'>
@@ -71,6 +79,7 @@ const List = ({ session }) => {
                     )}
                 </div>
             </div>
+            <Footer />
         </div>
     );
 };

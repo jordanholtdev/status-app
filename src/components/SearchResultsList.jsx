@@ -31,11 +31,11 @@ const SearchResultsList = (props) => {
                     <div className='container'>
                         <div className='border-zinc-300 text-slate-300 text-lg font-semibold tracking-wide'>
                             {/* Flight number */}
-                            {flight.word}
+                            {flight.ident}
                         </div>
                         <div className='text-base text-gray-500'>
                             {/* Flight origin airport */}
-                            {flight.score}
+                            To {flight.destination.city}
                         </div>
                     </div>
                 </div>
@@ -43,21 +43,21 @@ const SearchResultsList = (props) => {
                     <div className='container'>
                         <div className='text-green-500/80 text-lg font-medium'>
                             {/* Flight Scheduled off - date / time */}
-                            {renderDate('2021-12-31T19:59:59Z')}
+                            {renderDate(flight.scheduled_off)}
                         </div>
                         <div className='flex'>
                             <div className='text-slate-500 flex-1'>
                                 {/* Flight status */}
                                 Origin:{' '}
                                 <span className='text-sm font-semibold text-slate-300'>
-                                    YYZ
+                                    {flight.origin.name}
                                 </span>
                             </div>
                             <div className='text-slate-500 flex-1'>
                                 {/* Flight status */}
                                 Dest:{' '}
                                 <span className='text-sm font-semibold text-slate-300'>
-                                    JFK
+                                    {flight.destination.name}
                                 </span>
                             </div>
                         </div>
