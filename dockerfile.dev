@@ -1,0 +1,17 @@
+FROM node:alpine
+
+# create app directory
+WORKDIR /app
+
+# install dependencies
+COPY package*.json ./
+
+RUN npm install
+
+# bundle app source
+COPY . .
+
+# Expose port 3030
+EXPOSE 3030
+
+CMD ["npm", "run", "dev"]
