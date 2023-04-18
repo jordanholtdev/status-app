@@ -33,5 +33,6 @@ jobs:
                   ECR_REPOSITORY: project-flight
                   IMAGE_TAG: ${{ github.sha }}
               run: |
+                  ping -c 5 $(echo $ECR_REGISTRY | awk -F/ '{print \$1}')
                   docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-                  docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+                  docker push --max-concurrent-uploads 3 --max-upload-retries 5 $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
