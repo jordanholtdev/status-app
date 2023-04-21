@@ -14,6 +14,11 @@ jobs:
             contents: read
 
         steps:
+            - name: Set up environment variables
+              env:
+                  ENV_VAR_1: ${{ secrets.VITE_SUPABASE_URL }}
+                  ENV_VAR_2: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        
             - name: Checkout repo
               uses: actions/checkout@v3
 
