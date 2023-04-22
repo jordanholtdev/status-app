@@ -36,8 +36,8 @@ jobs:
                   IMAGE_TAG: ${{ github.sha }}
               run: |
                   docker build \
-                    --build-arg VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }} \
-                    --build-arg VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }} \
+                    --build-arg VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }} \
+                    --build-arg VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }} \
                     -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
                     .
 
