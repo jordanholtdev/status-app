@@ -40,4 +40,5 @@ jobs:
                   --build-arg VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }} \
                   -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
                   .
+
                   docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
