@@ -1,6 +1,9 @@
 # Build stage
 FROM node:alpine as build
 
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+
 WORKDIR /app
 
 COPY package*.json ./
@@ -8,6 +11,9 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
 
 RUN npm run build
 
