@@ -8,7 +8,6 @@ import Loading from '../components/Loading';
 import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
-import Footer from '../components/Footer';
 
 const Create = ({ session }) => {
     const navigate = useNavigate();
@@ -157,7 +156,6 @@ const Create = ({ session }) => {
                     </div>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };
