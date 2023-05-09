@@ -32,8 +32,8 @@ function App() {
                 <h1 className='text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl'>
                     Flight Updates
                 </h1>
-                <div className='py-4 text-gray-500'>
-                    Sign up and track your flights now!
+                <div className='py-8 text-green-400'>
+                    Never miss your flight again!
                 </div>
             </div>
             {!session ? (

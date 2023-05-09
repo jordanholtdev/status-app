@@ -4,7 +4,6 @@ import Dashboard from '../components/Dashboard';
 import Notifications from '../components/Notifications';
 import ScheduledList from '../components/ScheduledList';
 import PropTypes from 'prop-types';
-import Footer from '../components/Footer';
 
 const Scheduled = ({ session }) => {
     const [loading, setLoading] = useState();
@@ -75,7 +74,6 @@ const Scheduled = ({ session }) => {
                     )}
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };
