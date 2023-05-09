@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import Dashboard from '../components/Dashboard';
-import Footer from '../components/Footer';
 import PropTypes from 'prop-types';
 
 export default function Account({ session }) {
@@ -140,7 +139,6 @@ export default function Account({ session }) {
                     </form>
                 </div>
             </div>
-            <Footer />
         </div>
     );
 }

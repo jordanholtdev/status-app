@@ -4,7 +4,6 @@ import Dashboard from '../components/Dashboard';
 import FlightsList from '../components/FlightsList';
 import Notifications from '../components/Notifications';
 import PropTypes from 'prop-types';
-import Footer from '../components/Footer';
 
 const List = ({ session }) => {
     const [loading, setLoading] = useState();
@@ -79,7 +78,6 @@ const List = ({ session }) => {
                     )}
                 </div>
             </div>
-            <Footer />
         </div>
     );
 };
