@@ -28,32 +28,58 @@ function App() {
 
     return (
         <div>
-            <div className='text-center py-6'>
-                <h1 className='text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl'>
-                    Flight Updates
-                </h1>
-                <div className='py-8 text-green-400'>
-                    Never miss your flight again!
-                </div>
-            </div>
             {!session ? (
                 // Auth UI component
                 // social auth for github & google
-                <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-                    <div className='w-full max-w-md space-y-8'>
-                        <div>
-                            <Auth
-                                supabaseClient={supabase}
-                                appearance={{
-                                    theme: ThemeSupa,
-                                }}
-                                theme='dark'
-                                providers={['github', 'google']}
-                                view='sign_in'
-                                socialLayout='vertical'
-                                socialButtonSize='xlarge'
-                                onlyThirdPartyProviders={true}
-                            ></Auth>
+                <div>
+                    <div className='text-center py-6'>
+                        <div className='py-8 flex justify-center'>
+                            <svg
+                                xmlns='http://www.w3.org/2000/svg'
+                                width='100'
+                                height='100'
+                                viewBox='0 0 100 100'
+                            >
+                                <rect
+                                    width='100'
+                                    height='100'
+                                    rx='50'
+                                    fill='#4ade80'
+                                ></rect>
+                                <text
+                                    x='50%'
+                                    y='50%'
+                                    dominantBaseline='central'
+                                    textAnchor='middle'
+                                    fontSize='71'
+                                >
+                                    🛫
+                                </text>
+                            </svg>
+                        </div>
+                        <h1 className='text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl'>
+                            Flight Updates
+                        </h1>
+                        <div className='py-8 text-green-400'>
+                            Never miss your flight again!
+                        </div>
+                    </div>
+                    <div className='flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+                        <div className='w-full max-w-md space-y-8'>
+                            <div>
+                                <Auth
+                                    supabaseClient={supabase}
+                                    appearance={{
+                                        theme: ThemeSupa,
+                                    }}
+                                    theme='dark'
+                                    providers={['github', 'google']}
+                                    view='sign_in'
+                                    socialLayout='vertical'
+                                    socialButtonSize='xlarge'
+                                    onlyThirdPartyProviders={true}
+                                ></Auth>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import {
-    Bars3Icon,
-    BellIcon,
-    XMarkIcon,
-    PaperAirplaneIcon,
-} from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -59,7 +54,36 @@ export default function Dashboard({ session }) {
 
     return (
         // TODO: include mobile hamburger menu & adjust username styles
-        <div className='min-h-full bg-gray-900'>
+        <div className='min-h-full bg-zinc-900'>
+            <div className='text-center py-6'>
+                <div className='py-8 flex justify-center'>
+                    <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        width='100'
+                        height='100'
+                        viewBox='0 0 100 100'
+                    >
+                        <rect
+                            width='100'
+                            height='100'
+                            rx='50'
+                            fill='#4ade80'
+                        ></rect>
+                        <text
+                            x='50%'
+                            y='50%'
+                            dominantBaseline='central'
+                            textAnchor='middle'
+                            fontSize='71'
+                        >
+                            🛫
+                        </text>
+                    </svg>
+                </div>
+                <h1 className='text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl pb-8'>
+                    Flight Updates
+                </h1>
+            </div>
             <Disclosure as='nav' className='bg-green-700'>
                 {({ open }) => (
                     <>
@@ -67,10 +91,28 @@ export default function Dashboard({ session }) {
                             <div className='flex h-16 items-center justify-between'>
                                 <div className='flex items-center'>
                                     <div className='flex-shrink-0'>
-                                        <PaperAirplaneIcon
-                                            className='h-6 w-6 stroke-current text-white'
-                                            aria-hidden='true'
-                                        />
+                                        <svg
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            width='46'
+                                            height='46'
+                                            viewBox='0 0 100 100'
+                                        >
+                                            <rect
+                                                width='100'
+                                                height='100'
+                                                rx='50'
+                                                fill='#4ade80'
+                                            ></rect>
+                                            <text
+                                                x='50%'
+                                                y='50%'
+                                                dominantBaseline='central'
+                                                textAnchor='middle'
+                                                fontSize='71'
+                                            >
+                                                🛫
+                                            </text>
+                                        </svg>
                                     </div>
                                     <div className='hidden md:block'>
                                         <div className='ml-10 flex items-baseline space-x-4'>
