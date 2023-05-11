@@ -38,7 +38,7 @@ const FlightsList = (props) => {
         <div className='w-full sm:w-1/2 px-2'>
             {props.flightResults.map((flight, idx) => (
                 <div key={idx}>
-                    <div className='flex pt-3 pl-3 pr-4 text-sm hover:bg-zinc-800/70 my-4'>
+                    <div className='flex py-3 px-3 rounded-md text-sm hover:bg-zinc-800/70 my-4 bg-zinc-800'>
                         <div>
                             <Disclosure>
                                 {({ open }) => (
@@ -46,7 +46,7 @@ const FlightsList = (props) => {
                                         <div className='flex-1 divide-y divide-gray-100'>
                                             <div className='px-2 py-2 sm:grid sm:grid-cols-4 sm:gap-6 sm:px-0'>
                                                 <div className='container'>
-                                                    <div className='text-slate-300 text-lg leading-none font-semibold tracking-wide pt-1'>
+                                                    <div className='text-slate-300 text-lg leading-none font-semibold tracking-wide pt-1 ui-not-open:text-green-600'>
                                                         Flight: {''}
                                                         {flight.ident}
                                                     </div>
@@ -111,7 +111,7 @@ const FlightsList = (props) => {
 
                                         <Disclosure.Panel className='text-gray-500'>
                                             <div className='grid grid-rows-2 grid-flow-col gap-2 text-zinc-400/80 py-2'>
-                                                <div className='flex-2 h-full'>
+                                                <div className='flex-2'>
                                                     <div className='text-slate-400/80 text-md font-medium'>
                                                         From:{' '}
                                                         {
