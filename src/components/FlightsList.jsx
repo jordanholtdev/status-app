@@ -1,37 +1,17 @@
 import { Disclosure } from '@headlessui/react';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import {
+    convertSecondsToHHMMSS,
+    formatDate,
+    getArrivalTime,
+    getDepartureTime,
+    makeTime,
+} from '../controller';
 import PropTypes from 'prop-types';
 
 const FlightsList = (props) => {
     const handleDelete = (flight) => {
         props.onDeleteFlight(flight);
-    };
-
-    // Function to format the date
-    // It takes in a date string and returns a formatted date string in the format of YYYY-MM-DD
-    const formatDate = (date) => {
-        const newDate = new Date(date);
-        const options = {
-            weekday: 'short',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            timeZoneName: 'short',
-        };
-        const formattedDate = newDate.toLocaleDateString('en-US', options);
-
-        return formattedDate;
-    };
-
-    // Function to convert seconds to HH:MM:SS
-    // It takes in a number of seconds and returns a string in the format of HH:MM:SS
-    const convertSecondsToHHMMSS = (seconds) => {
-        const date = new Date(null);
-        date.setSeconds(seconds);
-        const result = date.toISOString().substr(11, 8);
-        return result;
     };
 
     return (
@@ -43,60 +23,68 @@ const FlightsList = (props) => {
                             <Disclosure>
                                 {({ open }) => (
                                     <>
-                                        <div className='flex-1 divide-y divide-gray-100'>
-                                            <div className='px-2 py-2 sm:grid sm:grid-cols-4 sm:gap-6 sm:px-0'>
-                                                <div className='container'>
-                                                    <div className='text-slate-300 text-lg leading-none font-semibold tracking-wide pt-1 ui-not-open:text-green-600'>
-                                                        Flight: {''}
-                                                        {flight.ident}
-                                                    </div>
-                                                    <div className='flex space-x-2 space-y-2 mt-1'>
-                                                        <div className='text-slate-500 text-sm'>
-                                                            Status:{' '}
-                                                            {flight.status}
+                                        <Disclosure.Button>
+                                            <div className='flex-1 divide-y divide-gray-100'>
+                                                <div className='px-2 py-2 sm:grid sm:grid-cols-4 sm:gap-6 sm:px-0'>
+                                                    <div className='container'>
+                                                        <div className='text-slate-300 text-lg tracking-wide leading-none font-semibold pt-1 text-left'>
+                                                            Flight: {''}
+                                                            {flight.ident}
                                                         </div>
-                                                        <span className='relative flex h-2 w-2'>
-                                                            <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75'></span>
-                                                            <span
-                                                                className={
-                                                                    flight.status ===
-                                                                    'Scheduled'
-                                                                        ? 'relative inline-flex rounded-full h-2 w-2 bg-green-500'
-                                                                        : 'relative inline-flex rounded-full h-2 w-2 bg-orange-500'
-                                                                }
-                                                            ></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div className='flex-1 h-full'>
-                                                    <div className='text-green-400/80 text-md font-medium'>
-                                                        {formatDate(
-                                                            flight.scheduled_off
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className='flex-2 h-full'>
-                                                    <div className='text-base text-gray-500'>
-                                                        <div className='text-slate-500 flex-1 text-sm'>
-                                                            Depart:{' '}
-                                                            <span className='text-slate-400'>
-                                                                {
-                                                                    flight.origin_name
-                                                                }
-                                                            </span>
-                                                        </div>
-                                                        <div className='text-slate-500 flex-1 text-sm'>
-                                                            Arrive:{' '}
-                                                            <span className='text-slate-400'>
-                                                                {
-                                                                    flight.destination_name
-                                                                }
+                                                        <div className='flex space-x-2 space-y-2 mt-1'>
+                                                            <div className='text-slate-500 text-sm'>
+                                                                Status:{' '}
+                                                                {flight.status}
+                                                            </div>
+                                                            <span className='relative flex h-2 w-2'>
+                                                                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75'></span>
+                                                                <span
+                                                                    className={
+                                                                        flight.status ===
+                                                                        'Scheduled'
+                                                                            ? 'relative inline-flex rounded-full h-2 w-2 bg-green-500'
+                                                                            : 'relative inline-flex rounded-full h-2 w-2 bg-orange-500'
+                                                                    }
+                                                                ></span>
                                                             </span>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className='flex-2 sm:text-center'>
-                                                    <Disclosure.Button>
+                                                    <div className='flex-1 h-full text-left'>
+                                                        <div className='text-green-400/80 text-md font-medium'>
+                                                            {formatDate(
+                                                                flight.scheduled_off
+                                                            )}
+                                                        </div>
+                                                        <div className='text-slate-400/80 text-sm font-medium mt-1'>
+                                                            Departure time:{' '}
+                                                            {makeTime(
+                                                                getDepartureTime(
+                                                                    flight
+                                                                ).time
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                    <div className='flex-2 h-full'>
+                                                        <div className='text-base text-gray-500 text-left'>
+                                                            <div className='text-slate-500 flex-1 text-sm'>
+                                                                Depart:{' '}
+                                                                <span className='text-slate-400'>
+                                                                    {
+                                                                        flight.origin_name
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                            <div className='text-slate-500 flex-1 text-sm'>
+                                                                Arrive:{' '}
+                                                                <span className='text-slate-400'>
+                                                                    {
+                                                                        flight.destination_name
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className='flex justify-center'>
                                                         <ChevronRightIcon
                                                             className={
                                                                 open
@@ -104,10 +92,10 @@ const FlightsList = (props) => {
                                                                     : 'w-6 h-6 text-green-500'
                                                             }
                                                         />
-                                                    </Disclosure.Button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Disclosure.Button>
 
                                         <Disclosure.Panel className='text-gray-500'>
                                             <div className='grid grid-rows-2 grid-flow-col gap-2 text-zinc-400/80 py-2'>
@@ -163,51 +151,25 @@ const FlightsList = (props) => {
                                                 <div className='row-span-3 col-span-2 text-sm flex space-x-2 space-y-2'>
                                                     <div className='text-slate-500 text-sm'>
                                                         <div className='text-slate-500 text-sm'>
-                                                            Scheduled gate
-                                                            departure:
+                                                            Depart:
                                                             <span className='text-green-500'>
-                                                                {formatDate(
-                                                                    flight.scheduled_out
+                                                                {makeTime(
+                                                                    getDepartureTime(
+                                                                        flight
+                                                                    ).time
                                                                 )}
                                                             </span>
                                                         </div>
-                                                        Scheduled runway
-                                                        departure:{' '}
+                                                        Arrival:{' '}
                                                         <span className='text-green-500'>
-                                                            {formatDate(
-                                                                flight.scheduled_off
+                                                            {makeTime(
+                                                                getArrivalTime(
+                                                                    flight
+                                                                ).time
                                                             )}
                                                         </span>
                                                         <div className='text-slate-500 text-sm'>
-                                                            Estimated runway
-                                                            departure:
-                                                            <span className='text-green-500'>
-                                                                {formatDate(
-                                                                    flight.estimated_off
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                        <div className='text-slate-500 text-sm'>
-                                                            Scheduled runway
-                                                            arrival:
-                                                            <span className='text-green-500'>
-                                                                {formatDate(
-                                                                    flight.scheduled_on
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                        <div className='text-slate-500 text-sm'>
-                                                            Estimated runway
-                                                            arrival:
-                                                            <span className='text-green-500'>
-                                                                {formatDate(
-                                                                    flight.estimated_on
-                                                                )}
-                                                            </span>
-                                                        </div>
-                                                        <div className='text-slate-500 text-sm'>
                                                             Runway-to-runway
-                                                            duration:
                                                             <span className='text-green-500'>
                                                                 {convertSecondsToHHMMSS(
                                                                     flight.filed_ete
