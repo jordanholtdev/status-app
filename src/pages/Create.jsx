@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Dashboard from '../components/Dashboard';
 import Loading from '../components/Loading';
 import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
 
-const Create = ({ session }) => {
+const Create = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [flightList, setFlightList] = useState([]);
@@ -84,7 +83,6 @@ const Create = ({ session }) => {
 
     return (
         <div>
-            <Dashboard key={session.user.id} session={session} />
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h2 className='text-base font-semibold leading-6 text-white'>
