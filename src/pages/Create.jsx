@@ -62,9 +62,6 @@ const Create = ({ session }) => {
         // remove the unselected results from the results array
         setIsSelected(true);
         setSelectedResult(selection);
-        const newResults = [];
-        newResults.push(selection);
-        setResults(newResults);
     };
 
     const scheduleResultSelection = async () => {
@@ -81,7 +78,6 @@ const Create = ({ session }) => {
             // reset the selection state
             setIsSelected(false);
             // route user to flight list if successful
-            console.log(data);
             navigate('/flights');
         }
     };
@@ -108,12 +104,10 @@ const Create = ({ session }) => {
                             ) : results.length > 0 &&
                               lookupResults?.lookupComplete === true ? (
                                 <div>
-                                    <ul className='divide-y divide-dashed divide-zinc-700'>
-                                        <SearchResultsList
-                                            onSelectResult={handleResultClick}
-                                            results={results}
-                                        />
-                                    </ul>
+                                    <SearchResultsList
+                                        onSelectResult={handleResultClick}
+                                        results={results}
+                                    />
                                     {isSelected ? (
                                         <button
                                             onClick={scheduleResultSelection}
