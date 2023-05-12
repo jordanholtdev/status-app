@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import Dashboard from '../components/Dashboard';
 import Notifications from '../components/Notifications';
 import ScheduledList from '../components/ScheduledList';
 import PropTypes from 'prop-types';
@@ -57,7 +56,6 @@ const Scheduled = ({ session }) => {
 
     return (
         <div>
-            <Dashboard key={session.user.id} session={session} />
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-lg'>
                 <h3 className='text-base font-semibold leading-6 text-white'>

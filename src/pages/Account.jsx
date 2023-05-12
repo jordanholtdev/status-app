@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import Dashboard from '../components/Dashboard';
 import PropTypes from 'prop-types';
 
 export default function Account({ session }) {
@@ -58,7 +57,6 @@ export default function Account({ session }) {
 
     return (
         <div className='overflow-hiddend'>
-            <Dashboard key={session.user.id} session={session} />
             <div className='px-4 py-5 sm:px-6'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
                     Account Settings

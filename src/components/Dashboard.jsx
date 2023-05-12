@@ -24,7 +24,7 @@ export default function Dashboard({ session }) {
         { name: 'Flights', href: '/flights', current: false },
         { name: 'Scheduled', href: '/scheduled', current: false },
     ];
-    const userNavigation = [{ name: 'Your Account', href: '/' }];
+    const userNavigation = [{ name: 'Your Account', href: '/account' }];
 
     useEffect(() => {
         async function getProfile() {

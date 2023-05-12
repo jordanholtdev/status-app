@@ -11,6 +11,7 @@ import Create from './pages/Create';
 import List from './pages/Flights';
 import Scheduled from './pages/Scheduled';
 import Footer from './components/Footer';
+import Layout from './pages/Layout';
 
 function App() {
     const [session, setSession] = useState(null);
@@ -88,45 +89,75 @@ function App() {
                     <Route
                         path='/'
                         element={
-                            <Account key={session.user.id} session={session} />
+                            <Layout key={session.user.id} session={session} />
                         }
-                    />
-                    <Route
-                        path='/add-flight'
-                        element={
-                            !session ? (
-                                <Auth />
-                            ) : (
-                                <Create
-                                    key={session.user.id}
-                                    session={session}
-                                />
-                            )
-                        }
-                    />
-                    <Route
-                        path='/flights'
-                        element={
-                            !session ? (
-                                <Auth />
-                            ) : (
-                                <List key={session.user.id} session={session} />
-                            )
-                        }
-                    />
-                    <Route
-                        path='/scheduled'
-                        element={
-                            !session ? (
-                                <Auth />
-                            ) : (
-                                <Scheduled
-                                    key={session.user.id}
-                                    session={session}
-                                />
-                            )
-                        }
-                    />
+                    >
+                        <Route
+                            index
+                            element={
+                                !session ? (
+                                    <Auth />
+                                ) : (
+                                    <List
+                                        key={session.user.id}
+                                        session={session}
+                                    />
+                                )
+                            }
+                        />
+                        <Route
+                            path='/add-flight'
+                            element={
+                                !session ? (
+                                    <Auth />
+                                ) : (
+                                    <Create
+                                        key={session.user.id}
+                                        session={session}
+                                    />
+                                )
+                            }
+                        />
+                        <Route
+                            path='/account'
+                            element={
+                                !session ? (
+                                    <Auth />
+                                ) : (
+                                    <Account
+                                        key={session.user.id}
+                                        session={session}
+                                    />
+                                )
+                            }
+                        />
+                        <Route
+                            path='/flights'
+                            element={
+                                !session ? (
+                                    <Auth />
+                                ) : (
+                                    <List
+                                        key={session.user.id}
+                                        session={session}
+                                    />
+                                )
+                            }
+                        />
+                        <Route
+                            path='/scheduled'
+                            element={
+                                !session ? (
+                                    <Auth />
+                                ) : (
+                                    <Scheduled
+                                        key={session.user.id}
+                                        session={session}
+                                    />
+                                )
+                            }
+                        />
+                    </Route>
                 </Routes>
             )}
             <Footer />
