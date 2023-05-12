@@ -59,12 +59,15 @@ const Scheduled = ({ session }) => {
         <div>
             <Dashboard key={session.user.id} session={session} />
             <Notifications />
-            <div className='px-4 py-5 sm:px-6 max-w-md'>
+            <div className='px-4 py-5 sm:px-6 max-w-lg'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
                     Scheduled
                 </h3>
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    These are searches that are scheduled.
+                    These are searches that are scheduled.{' '}
+                    {scheduledFlights.length > 0
+                        ? `You have ${scheduledFlights.length} scheduled searches.`
+                        : 'You have no scheduled searches.'}
                 </p>
             </div>
             <div className='border-t border-zinc-600'>
