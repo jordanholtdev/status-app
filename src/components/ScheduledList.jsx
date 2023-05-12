@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { formatDate, subtractTwoDays } from '../controller';
 
 const ScheduledList = (props) => {
     const onDeleteClick = (flight) => {
@@ -34,30 +35,28 @@ const ScheduledList = (props) => {
                                 <div className='flex-1 h-full'>
                                     <div className='container'>
                                         <div className='text-slate-300 text-lg leading-none font-semibold tracking-wide'>
-                                            {/* flight number */}
-                                            {flight.ident}
+                                            Flight: {flight.ident}
                                         </div>
 
                                         <div className='flex space-x-2 space-y-2 mt-1'>
                                             <div className='text-slate-500 text-sm'>
-                                                Date: {flight.flight_date}
+                                                Flight date:{' '}
+                                                {flight.flight_date}
                                             </div>
-                                            <span className='relative flex h-2 w-2'>
-                                                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75'></span>
-                                                <span className='relative inline-flex rounded-full h-2 w-2 bg-green-500'></span>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className='flex-1 h-full'>
                                     <div className='text-green-400/80 text-md font-medium'>
-                                        Search created:
-                                        {flight.created_at}
+                                        Search submitted:{' '}
+                                        {formatDate(flight.created_at)}
                                     </div>
                                     <div className='text-base text-gray-500 mt-1'>
                                         <div className='text-slate-500 flex-1 text-sm'>
-                                            Search complete:{' '}
-                                            {flight.lookup_complete}
+                                            Search Scheduled for:{' '}
+                                            {subtractTwoDays(
+                                                flight.flight_date
+                                            )}
                                         </div>
                                     </div>
                                 </div>
