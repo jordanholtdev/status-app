@@ -308,6 +308,15 @@ export default function Dashboard({ session }) {
                                         </Disclosure.Button>
                                     ))}
                                 </div>
+                                <button
+                                    type='button'
+                                    onClick={() => supabase.auth.signOut()}
+                                    className={classNames(
+                                        'block px-5 py-2 text-base font-medium text-gray-200 hover:text-red-500'
+                                    )}
+                                >
+                                    Sign out
+                                </button>
                             </div>
                         </Disclosure.Panel>
                     </>
