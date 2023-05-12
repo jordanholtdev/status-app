@@ -37,17 +37,22 @@ const Scheduled = ({ session }) => {
     // allow user to delete item from list
 
     const handleDelete = async (flight) => {
-        const { error } = await supabase
-            .from('schedule_lookup')
-            .delete()
-            .eq('id', flight.id);
-
-        if (error) {
-            console.warn(error);
-        }
-        setScheduledFlights(
-            scheduledFlights.filter((item) => item.id !== flight.id)
+        const confirm = window.confirm(
+            `Are you sure you want to delete ${flight.ident}?`
         );
+        if (confirm) {
+            const { error } = await supabase
+                .from('schedule_lookup')
+                .delete()
+                .eq('id', flight.id);
+
+            if (error) {
+                console.warn(error);
+            }
+            setScheduledFlights(
+                scheduledFlights.filter((item) => item.id !== flight.id)
+            );
+        }
     };
 
     return (
