@@ -38,6 +38,21 @@ export const makeTime = (time) => {
     return `${hours}:${minuteZeroes(minutes)} GMT`;
 };
 
+// create a function that accepts a date
+// then subtracts two days from the date and returns the new date as a string in the format YYYY-MM-DD
+export const subtractTwoDays = (date) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() - 2);
+    const options = {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    };
+    const formattedDate = newDate.toLocaleDateString('en-US', options);
+    return formattedDate;
+};
+
 export const getDepartureTime = (flight) => {
     if (flight.actual_off) {
         let time = {
