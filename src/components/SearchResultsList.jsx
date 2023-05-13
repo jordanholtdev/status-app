@@ -15,7 +15,7 @@ const SearchResultsList = (props) => {
 
     return (
         <RadioGroup value={props.results}>
-            <RadioGroup.Label>Plan</RadioGroup.Label>
+            <RadioGroup.Label className={`text-white`}>Plan</RadioGroup.Label>
             {props.results.slice(0, 5).map((flight, idx) => (
                 <RadioGroup.Option
                     key={props.results.indexOf(flight)}
