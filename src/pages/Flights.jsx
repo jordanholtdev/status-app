@@ -216,9 +216,9 @@ const List = ({ session }) => {
                 <p className='mt-1 max-w-2xl text-sm text-gray-500'>
                     You currently have {flights.length} flights saved.
                 </p>
-                <o className='mt-1 max-w-2xl text-sm text-gray-500'>
+                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
                     You can search, sort, and filter your flights below.
-                </o>
+                </p>
             </div>
             <div className='border-t border-zinc-600'>
                 <div>
