@@ -12,7 +12,6 @@ const ExportButton = ({ flights }) => {
         const keys = Object.keys(sanitizedData);
 
         keys.forEach((key) => {
-            console.log(key, sanitizedData[key]);
             if (typeof sanitizedData[key] === 'string') {
                 sanitizedData[key] = DOMPurify.sanitize(sanitizedData[key]);
             } else if (typeof sanitizedData[key] === 'object') {
