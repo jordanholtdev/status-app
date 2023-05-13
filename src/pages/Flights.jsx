@@ -209,7 +209,7 @@ const List = ({ session }) => {
     return (
         <div>
             <Notifications />
-            <div className='px-4 py-5 sm:px-6 max-w-md'>
+            <div className='px-6 py-5 sm:px-6 max-w-md'>
                 <h3 className='text-base font-semibold leading-6 text-white'>
                     Flights
                 </h3>
@@ -221,10 +221,10 @@ const List = ({ session }) => {
                 </p>
             </div>
             <div className='border-t border-zinc-600'>
-                <div>
+                <div className='px-4'>
                     <div className='flex flex-col pt-6'>
                         <div className='flex justify-center'>
-                            <div className='relative lg:w-1/2'>
+                            <div className='relative lg:w-1/2 sm:w-1/2'>
                                 <label
                                     htmlFor='search-input'
                                     className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
@@ -245,115 +245,126 @@ const List = ({ session }) => {
                             </div>
                         </div>
                         <div className='flex w-full justify-center pt-6'>
-                            <button
-                                type='button'
-                                className={
-                                    filter.column === 'scheduled_out'
-                                        ? sortType === 'asc'
-                                            ? 'sort-asc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
-                                            : filter.direction === 'default' // added condition to check if no sort type is selected
-                                            ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                            : 'sort-desc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
-                                        : 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                }
-                                onClick={() =>
-                                    handleSort(
-                                        filter.column === 'default'
-                                            ? 'default'
-                                            : 'scheduled_out'
-                                    )
-                                }
-                            >
-                                {filter.column === 'default'
-                                    ? 'Default'
-                                    : 'Departs'}
-                                <ChevronRightIcon
-                                    className={
-                                        filter.column === 'scheduled_out'
-                                            ? sortType === 'asc'
-                                                ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
-                                                : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
-                                            : 'h-5 w-5 ml-2'
-                                    }
-                                />
-                            </button>
-                            <button
-                                type='button'
-                                className={
-                                    filter.column === 'created_at'
-                                        ? sortType === 'asc'
-                                            ? 'sort-asc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
-                                            : filter.direction === 'default' // added condition to check if no sort type is selected
-                                            ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                            : 'sort-desc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
-                                        : 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                }
-                                onClick={() =>
-                                    handleSort(
-                                        filter.column === 'default'
-                                            ? 'default'
-                                            : 'created_at'
-                                    )
-                                }
-                            >
-                                {filter.column === 'default'
-                                    ? 'Default'
-                                    : 'Created'}
-                                <ChevronRightIcon
-                                    className={
-                                        filter.column === 'created_at'
-                                            ? sortType === 'asc'
-                                                ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
-                                                : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
-                                            : 'h-5 w-5 ml-2'
-                                    }
-                                />
-                            </button>
-                            <button
-                                type='button'
-                                className={
-                                    filter.column === 'route_distance'
-                                        ? sortType === 'asc'
-                                            ? 'sort-asc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
-                                            : filter.direction === 'default' // added condition to check if no sort type is selected
-                                            ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                            : 'sort-desc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
-                                        : 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                }
-                                onClick={() =>
-                                    handleSort(
-                                        filter.column === 'default'
-                                            ? 'default'
-                                            : 'route_distance'
-                                    )
-                                }
-                            >
-                                Distance
-                                <ChevronRightIcon
-                                    className={
-                                        filter.column === 'route_distance'
-                                            ? sortType === 'asc'
-                                                ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
-                                                : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
-                                            : 'h-5 w-5 ml-2'
-                                    }
-                                />
-                            </button>
-                            <button
-                                type='button'
-                                className={
-                                    filter.column === ''
-                                        ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
-                                        : 'text-gray-400 hover:text-gray-300 border border-gray-400 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800 inline-flex items-center'
-                                }
-                                onClick={() => handleSort('default')}
-                            >
-                                Default
-                            </button>
+                            <div className='lg:w-1/2 lg:flex'>
+                                <div className='flex'>
+                                    <button
+                                        type='button'
+                                        className={
+                                            filter.column === 'scheduled_out'
+                                                ? sortType === 'asc'
+                                                    ? 'sort-asc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
+                                                    : filter.direction ===
+                                                      'default' // added condition to check if no sort type is selected
+                                                    ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                                    : 'sort-desc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
+                                                : 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                        }
+                                        onClick={() =>
+                                            handleSort(
+                                                filter.column === 'default'
+                                                    ? 'default'
+                                                    : 'scheduled_out'
+                                            )
+                                        }
+                                    >
+                                        {filter.column === 'default'
+                                            ? 'Default'
+                                            : 'Departs'}
+                                        <ChevronRightIcon
+                                            className={
+                                                filter.column ===
+                                                'scheduled_out'
+                                                    ? sortType === 'asc'
+                                                        ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
+                                                        : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
+                                                    : 'h-5 w-5 ml-2'
+                                            }
+                                        />
+                                    </button>
+                                    <button
+                                        type='button'
+                                        className={
+                                            filter.column === 'created_at'
+                                                ? sortType === 'asc'
+                                                    ? 'sort-asc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
+                                                    : filter.direction ===
+                                                      'default' // added condition to check if no sort type is selected
+                                                    ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                                    : 'sort-desc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
+                                                : 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                        }
+                                        onClick={() =>
+                                            handleSort(
+                                                filter.column === 'default'
+                                                    ? 'default'
+                                                    : 'created_at'
+                                            )
+                                        }
+                                    >
+                                        {filter.column === 'default'
+                                            ? 'Default'
+                                            : 'Created'}
+                                        <ChevronRightIcon
+                                            className={
+                                                filter.column === 'created_at'
+                                                    ? sortType === 'asc'
+                                                        ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
+                                                        : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
+                                                    : 'h-5 w-5 ml-2'
+                                            }
+                                        />
+                                    </button>
+                                </div>
+                                <div className='flex'>
+                                    <button
+                                        type='button'
+                                        className={
+                                            filter.column === 'route_distance'
+                                                ? sortType === 'asc'
+                                                    ? 'sort-asc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
+                                                    : filter.direction ===
+                                                      'default' // added condition to check if no sort type is selected
+                                                    ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                                    : 'sort-desc text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800 inline-flex items-center'
+                                                : 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                        }
+                                        onClick={() =>
+                                            handleSort(
+                                                filter.column === 'default'
+                                                    ? 'default'
+                                                    : 'route_distance'
+                                            )
+                                        }
+                                    >
+                                        Distance
+                                        <ChevronRightIcon
+                                            className={
+                                                filter.column ===
+                                                'route_distance'
+                                                    ? sortType === 'asc'
+                                                        ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
+                                                        : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
+                                                    : 'h-5 w-5 ml-2'
+                                            }
+                                        />
+                                    </button>
+                                    <button
+                                        type='button'
+                                        className={
+                                            filter.column === ''
+                                                ? 'text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800 inline-flex items-center'
+                                                : 'text-gray-400 hover:text-gray-300 border border-gray-400 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800 inline-flex items-center'
+                                        }
+                                        onClick={() => handleSort('default')}
+                                    >
+                                        Default
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className='flex justify-center min-w-full mt-5 '>
+                <div className='flex justify-center mt-5 '>
                     {loading ? (
                         <div className='text-white'>Loading</div>
                     ) : (

@@ -33,7 +33,7 @@ const FlightsList = (props) => {
     };
 
     return (
-        <div className='w-full sm:w-1/2 px-2'>
+        <div className='container w-3/4 lg:w-1/2'>
             {props.flightResults.map((flight, idx) => (
                 <div key={idx}>
                     <div
