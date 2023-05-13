@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Dashboard from '../components/Dashboard';
 import Loading from '../components/Loading';
 import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
 
-const Create = ({ session }) => {
+const Create = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [flightList, setFlightList] = useState([]);
@@ -62,9 +61,6 @@ const Create = ({ session }) => {
         // remove the unselected results from the results array
         setIsSelected(true);
         setSelectedResult(selection);
-        const newResults = [];
-        newResults.push(selection);
-        setResults(newResults);
     };
 
     const scheduleResultSelection = async () => {
@@ -81,14 +77,12 @@ const Create = ({ session }) => {
             // reset the selection state
             setIsSelected(false);
             // route user to flight list if successful
-            console.log(data);
             navigate('/flights');
         }
     };
 
     return (
         <div>
-            <Dashboard key={session.user.id} session={session} />
             <Notifications />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h2 className='text-base font-semibold leading-6 text-white'>
@@ -108,12 +102,10 @@ const Create = ({ session }) => {
                             ) : results.length > 0 &&
                               lookupResults?.lookupComplete === true ? (
                                 <div>
-                                    <ul className='divide-y divide-dashed divide-zinc-700'>
-                                        <SearchResultsList
-                                            onSelectResult={handleResultClick}
-                                            results={results}
-                                        />
-                                    </ul>
+                                    <SearchResultsList
+                                        onSelectResult={handleResultClick}
+                                        results={results}
+                                    />
                                     {isSelected ? (
                                         <button
                                             onClick={scheduleResultSelection}
