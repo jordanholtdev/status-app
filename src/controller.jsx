@@ -122,3 +122,93 @@ export const flightStatus = (flight) => {
 
     return <span className='actual'>Scheduled</span>;
 };
+
+// function that takes in the json weather object, parses the data and returns it
+export const parseWeather = (weather) => {
+    // stringify the json object
+
+    // parse the json object
+    const parsedData = JSON.parse(weather.weather);
+    // extract the parts of the json object that we want and create a custom object
+
+    const weatherData = {
+        feels_like: `${parsedData.main.feels_like} °C`,
+        humidity: parsedData.main.humidity,
+        pressure: parsedData.main.pressure,
+        temp: `${parsedData.main.temp} °C`,
+        temp_max: `${parsedData.main.temp_max} °C`,
+        temp_min: `${parsedData.main.temp_min} °C`,
+        visibility: parsedData.visibility,
+        wind_speed: `${parsedData.wind.speed} m/s`,
+        wind_deg: `${parsedData.wind.deg} °`,
+        wind_direction: calculateWindDirection(parsedData.wind.deg),
+        wind_gust: parsedData.wind.gust,
+        clouds: `${parsedData.clouds.all} %`,
+        description: parsedData.weather[0].description,
+        summary: calculateWeatherCondition(
+            parsedData.weather[0].description,
+            parsedData.wind.speed,
+            parsedData.rain['3h'] || 0
+        ),
+        rain: `${parsedData.rain['3h'] || 0} mm`,
+    };
+
+    return weatherData;
+};
+
+// function that calculates the wind direction based on the wind degree
+export const calculateWindDirection = (wind_deg) => {
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round((wind_deg % 360) / 45);
+    return directions[index % 8];
+};
+
+// function that calculates the overall weather condition based on the weather description, wind speed and rain
+export const calculateWeatherCondition = (weather, wind_speed, rain) => {
+    const weatherConditions = [
+        { keyword: 'rain', value: 'rainy' },
+        { keyword: 'snow', value: 'snowy' },
+        { keyword: 'cloud', value: 'cloudy' },
+        { keyword: 'clear', value: 'clear' },
+        { keyword: 'thunderstorm', value: 'thunderstorm' },
+        { keyword: 'drizzle', value: 'drizzle' },
+        { keyword: 'fog', value: 'fog' },
+        { keyword: 'mist', value: 'mist' },
+        { keyword: 'haze', value: 'haze' },
+        { keyword: 'smoke', value: 'smoke' },
+        { keyword: 'sand', value: 'sand' },
+        { keyword: 'ash', value: 'ash' },
+        { keyword: 'squall', value: 'squall' },
+        { keyword: 'tornado', value: 'tornado' },
+        { keyword: 'volcanic', value: 'volcanic' },
+        { keyword: 'dust', value: 'dust' },
+    ];
+
+    // Check for wind speed above 10 m/s and add warning
+    let weatherCondition = '';
+    if (wind_speed > 10) {
+        weatherCondition = `High wind speed (${wind_speed} km/h)`;
+        weatherConditions.forEach((condition) => {
+            if (weather.includes(condition.keyword)) {
+                weatherCondition += ` with ${condition.value}`;
+            }
+        });
+        weatherCondition += ' warning';
+    } else if (rain > 10) {
+        weatherCondition = `Heavy rain (${rain} mm)`;
+        weatherConditions.forEach((condition) => {
+            if (weather.includes(condition.keyword)) {
+                weatherCondition += ` with ${condition.value}`;
+            }
+        });
+    } else {
+        // Check weather description for other conditions
+        weatherConditions.forEach((condition) => {
+            if (weather.includes(condition.keyword)) {
+                weatherCondition = condition.value;
+            }
+        });
+    }
+
+    return weatherCondition;
+};
