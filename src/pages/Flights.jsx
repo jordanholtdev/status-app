@@ -37,7 +37,10 @@ const List = ({ session }) => {
 
             let { data, error } = await supabase
                 .from('flights')
-                .select(`*`)
+                .select(
+                    `*,
+                forecasts!forecasts_flight_id_fkey (*)`
+                )
                 .eq('user_id', user.id);
 
             if (error) {
