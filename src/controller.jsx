@@ -132,25 +132,38 @@ export const parseWeather = (weather) => {
     // extract the parts of the json object that we want and create a custom object
 
     const weatherData = {
-        feels_like: `${parsedData.main.feels_like} °C`,
-        humidity: parsedData.main.humidity,
-        pressure: parsedData.main.pressure,
-        temp: `${parsedData.main.temp} °C`,
-        temp_max: `${parsedData.main.temp_max} °C`,
-        temp_min: `${parsedData.main.temp_min} °C`,
-        visibility: parsedData.visibility,
-        wind_speed: `${parsedData.wind.speed} m/s`,
-        wind_deg: `${parsedData.wind.deg} °`,
-        wind_direction: calculateWindDirection(parsedData.wind.deg),
-        wind_gust: parsedData.wind.gust,
-        clouds: `${parsedData.clouds.all} %`,
-        description: parsedData.weather[0].description,
-        summary: calculateWeatherCondition(
-            parsedData.weather[0].description,
-            parsedData.wind.speed,
-            parsedData.rain['3h'] || 0
-        ),
-        rain: `${parsedData.rain['3h'] || 0} mm`,
+        feels_like: parsedData.main?.feels_like
+            ? `${parsedData.main.feels_like} °C`
+            : null,
+        humidity: parsedData.main?.humidity || null,
+        pressure: parsedData.main?.pressure || null,
+        temp: parsedData.main?.temp ? `${parsedData.main.temp} °C` : null,
+        temp_max: parsedData.main?.temp_max
+            ? `${parsedData.main.temp_max} °C`
+            : null,
+        temp_min: parsedData.main?.temp_min
+            ? `${parsedData.main.temp_min} °C`
+            : null,
+        visibility: parsedData.visibility || null,
+        wind_speed: parsedData.wind?.speed
+            ? `${parsedData.wind.speed} m/s`
+            : null,
+        wind_deg: parsedData.wind?.deg ? `${parsedData.wind.deg} °` : null,
+        wind_direction: parsedData.wind?.deg
+            ? calculateWindDirection(parsedData.wind.deg)
+            : null,
+        wind_gust: parsedData.wind?.gust || null,
+        clouds: parsedData.clouds?.all ? `${parsedData.clouds.all} %` : null,
+        description: parsedData.weather?.[0]?.description || null,
+        summary:
+            parsedData.weather?.[0]?.description && parsedData.wind?.speed
+                ? calculateWeatherCondition(
+                      parsedData.weather[0].description,
+                      parsedData.wind.speed,
+                      parsedData.rain?.['3h'] || 0
+                  )
+                : null,
+        rain: parsedData.rain?.['3h'] ? `${parsedData.rain['3h']} mm` : '0 mm',
     };
 
     return weatherData;
