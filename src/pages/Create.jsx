@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Loading from '../components/Loading';
+import AppDialog from '../components/Dialog';
 import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
@@ -16,6 +16,12 @@ const Create = () => {
     const [selectedResult, setSelectedResult] = useState();
     const [lookupResults, setLookupResults] = useState();
     const [results, setResults] = useState([]);
+    const [errorMessage, setErrorMessage] = useState({
+        error: false,
+        message: '',
+        title: '',
+    });
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     useEffect(() => {
         setResults([...flightList]);
@@ -33,23 +39,39 @@ const Create = () => {
         );
 
         if (error) {
-            console.error(error);
+            setIsLoading(false);
+            console.log(error);
+            setErrorMessage({
+                error: true,
+                title: 'Lookup Error',
+                body: error.message,
+            });
+            setIsDialogOpen(true);
         }
+        // if the lookup was successful, check to see if there are any results
+        // if there are no results, set the error message state
+        // if there are results, set the lookup results state
         if (data) {
-            // set lookup results state
-            // if lookup scheduled render details
-            // If not scheduled (past date out of range) render details
-            // If lookup was completed but returned no results, render no result found
-            setLookupResults(data);
-            if (data.lookupComplete === true) {
-                setFlightList(data.results.flights);
+            if (data.results.length === 0) {
                 setIsLoading(false);
+                setErrorMessage({
+                    error: true,
+                    title: 'Lookup not completed',
+                    body: data.lookupStatus,
+                });
+                setIsDialogOpen(true);
             } else if (data.isScheduled === true) {
                 setIsLoading(false);
-            } else if (data.lookupStatus === 'Not Scheduled') {
-                setIsLoading(false);
+                setErrorMessage({
+                    error: true,
+                    title: 'Lookup Scheduled',
+                    body: 'The submitted flight number has been scheduled for lookup. You can view your scheduled lookups on the Scheduled page.',
+                });
+                setIsDialogOpen(true);
             } else {
-                console.log('no results');
+                setLookupResults(data);
+                setFlightList(data.results.flights);
+                setIsLoading(false);
             }
         }
     };
@@ -84,6 +106,14 @@ const Create = () => {
     return (
         <div>
             <Notifications />
+            <AppDialog
+                open={isDialogOpen}
+                setIsOpen={setIsDialogOpen}
+                message={errorMessage}
+                onClose={() => {
+                    setIsDialogOpen(false);
+                }}
+            />
             <div className='px-4 py-5 sm:px-6 max-w-md'>
                 <h2 className='text-base font-semibold leading-6 text-white'>
                     Search for a flight
@@ -116,30 +146,6 @@ const Create = () => {
                                     ) : (
                                         <></>
                                     )}
-                                </div>
-                            ) : results.length === 0 &&
-                              lookupResults?.isScheduled === true ? (
-                                <div className='overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-4'>
-                                    <div className='text-sm text-gray-500'>
-                                        We have scheduled your search. View your
-                                        upcoming{' '}
-                                        <Link
-                                            to='/scheduled'
-                                            className='text-gray-400 hover:bg-gray-700 hover:text-white '
-                                        >
-                                            scheduled searches here.
-                                        </Link>
-                                        .
-                                    </div>
-                                </div>
-                            ) : results.length === 0 &&
-                              lookupResults?.lookupStatus ===
-                                  'Not Scheduled' ? (
-                                <div className='overflow-hidden rounded-lg text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-4'>
-                                    <div className='text-sm text-gray-500'>
-                                        Not Scheduled. Date too far in the past
-                                        - 10 days historical{' '}
-                                    </div>
                                 </div>
                             ) : (
                                 <></>
