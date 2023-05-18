@@ -17,16 +17,8 @@ const List = ({ session }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [sortType, setSortType] = useState('asc');
     const [filter, setFilter] = useState({
-        column: 'id',
+        column: 'scheduled_out',
         direction: 'asc',
-        id: '',
-        origin_name: '',
-        created_at: '',
-        ident: '',
-        destination_name: '',
-        status: '',
-        scheduled_out: '',
-        route_distance: '',
     });
 
     // fetch the saved flights from db
@@ -58,7 +50,7 @@ const List = ({ session }) => {
 
     useEffect(() => {
         const defaultSort = {
-            column: 'id',
+            column: 'scheduled_out',
             direction: 'asc',
         };
         const storedSort = localStorage.getItem('defaultSort');
@@ -131,18 +123,14 @@ const List = ({ session }) => {
                             new Date(a.scheduled_out).getTime()
                     );
                 }
-            } else if (filter.column === 'created_at') {
+            } else if (filter.column === 'progress_percent') {
                 if (sortType === 'asc') {
                     result.sort(
-                        (a, b) =>
-                            new Date(a.created_at).getTime() -
-                            new Date(b.created_at).getTime()
+                        (a, b) => a.progress_percent - b.progress_percent
                     );
                 } else {
                     result.sort(
-                        (a, b) =>
-                            new Date(b.created_at).getTime() -
-                            new Date(a.created_at).getTime()
+                        (a, b) => b.progress_percent - a.progress_percent
                     );
                 }
             } else if (filter.column === 'route_distance') {
@@ -174,7 +162,7 @@ const List = ({ session }) => {
         } else if (column === 'default') {
             // case to remove current sorting and set back to default
             setFilter({
-                column: 'id',
+                column: 'scheduled_out',
                 direction: 'asc',
             });
             setSortType('asc');
@@ -267,7 +255,7 @@ const List = ({ session }) => {
                                     >
                                         {filter.column === 'default'
                                             ? 'Default'
-                                            : 'Departs'}
+                                            : 'Date'}
                                         <ChevronRightIcon
                                             className={
                                                 filter.column ===
@@ -282,7 +270,7 @@ const List = ({ session }) => {
                                     <button
                                         type='button'
                                         className={
-                                            filter.column === 'created_at'
+                                            filter.column === 'progress_percent'
                                                 ? sortType === 'asc'
                                                     ? 'sort-asc text-gray-200 hover:text-white border border-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-white-300 font-medium rounded-lg text-sm px-4 py-2.5 text-center mr-2 mb-2 dark:border-white-500 dark:text-white-500 dark:hover:text-white dark:hover:bg-white-600 dark:focus:ring-white-800 inline-flex items-center'
                                                     : filter.direction ===
@@ -295,16 +283,17 @@ const List = ({ session }) => {
                                             handleSort(
                                                 filter.column === 'default'
                                                     ? 'default'
-                                                    : 'created_at'
+                                                    : 'progress_percent'
                                             )
                                         }
                                     >
                                         {filter.column === 'default'
                                             ? 'Default'
-                                            : 'Created'}
+                                            : 'Progress'}
                                         <ChevronRightIcon
                                             className={
-                                                filter.column === 'created_at'
+                                                filter.column ===
+                                                'progress_percent'
                                                     ? sortType === 'asc'
                                                         ? 'sort-asc -rotate-90 transform h-5 w-5 ml-2'
                                                         : 'sort-desc rotate-90 transform h-5 w-5 ml-2'
