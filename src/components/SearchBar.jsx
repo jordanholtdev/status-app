@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import DOMPurify from 'dompurify';
 import PropTypes from 'prop-types';
 import {
@@ -16,6 +16,17 @@ const SearchBar = (props) => {
         title: '',
     });
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+    useEffect(() => {
+        const currentDate = new Date();
+        const formattedDate = formatDate(currentDate);
+        setSelectedDate(formattedDate);
+    }, []);
+
+    const formatDate = (date) => {
+        const formattedDate = date.toISOString().split('T')[0];
+        return formattedDate;
+    };
 
     const onFormSubmit = (e) => {
         e.preventDefault();
@@ -62,10 +73,9 @@ const SearchBar = (props) => {
     const handleDateChange = (e) => {
         // format the date to YYYY-MM-DD for the API
         const date = new Date(e.target.value);
-        const formattedDate = date.toISOString().split('T')[0];
+        const formattedDate = formatDate(date);
 
         setSelectedDate(formattedDate);
-        console.log(selectedDate);
     };
 
     // handle dialog close event here

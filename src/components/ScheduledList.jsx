@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { formatDate, subtractTwoDays } from '../controller';
+import { formatDate, subtractTwoDays } from '../utils/controller';
 import { ClockIcon } from '@heroicons/react/24/outline';
 
 const ScheduledList = (props) => {

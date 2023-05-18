@@ -1,4 +1,4 @@
-import { parseWeather } from '../controller';
+import { parseWeather } from '../utils/controller';
 import PropTypes from 'prop-types';
 
 export default function WeatherData({ flightWeatherData }) {
