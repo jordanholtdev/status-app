@@ -6,6 +6,7 @@ import {
     ChevronRightIcon,
     MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
+import PageHeader from '../components/PageHeader';
 import Notifications from '../components/Notifications';
 import PropTypes from 'prop-types';
 
@@ -213,17 +214,10 @@ const List = ({ session }) => {
     return (
         <div>
             <Notifications />
-            <div className='px-6 py-5 sm:px-6 max-w-md'>
-                <h3 className='text-base font-semibold leading-6 text-white'>
-                    Flights
-                </h3>
-                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    You currently have {flights.length} flights saved.
-                </p>
-                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    You can search, sort, and filter your flights below.
-                </p>
-            </div>
+            <PageHeader
+                title='Flights'
+                subtitle={`You can search, sort, and filter your flights below.You currently have ${flights.length} flights saved.`}
+            />
             <div className='border-t border-zinc-600'>
                 <div className='px-4'>
                     <div className='flex flex-col pt-6'>

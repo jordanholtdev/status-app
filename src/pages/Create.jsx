@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 import PropTypes from 'prop-types';
 import Loading from '../components/Loading';
+import PageHeader from '../components/PageHeader';
 import AppDialog from '../components/Dialog';
 import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
@@ -114,14 +115,10 @@ const Create = () => {
                     setIsDialogOpen(false);
                 }}
             />
-            <div className='px-4 py-5 sm:px-6 max-w-md'>
-                <h2 className='text-base font-semibold leading-6 text-white'>
-                    Search for a flight
-                </h2>
-                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    Enter a date & flight number
-                </p>
-            </div>
+            <PageHeader
+                title='Add Flight'
+                subtitle='Search for a flight to add to your list. Enter a date & flight number'
+            />
             <div className='border-t border-zinc-600'>
                 <div className='flex justify-center mt-7 min-w-full'>
                     <div className='w-full sm:w-9/12 px-4'>
