@@ -124,49 +124,61 @@ export const flightStatus = (flight) => {
 };
 
 // function that takes in the json weather object, parses the data and returns it
-export const parseWeather = (weather) => {
-    // stringify the json object
-
-    // parse the json object
-    const parsedData = JSON.parse(weather.weather);
-    // extract the parts of the json object that we want and create a custom object
-
-    const weatherData = {
-        feels_like: parsedData.main?.feels_like
-            ? `${parsedData.main.feels_like} °C`
-            : null,
-        humidity: parsedData.main?.humidity || null,
-        pressure: parsedData.main?.pressure || null,
-        temp: parsedData.main?.temp ? `${parsedData.main.temp} °C` : null,
-        temp_max: parsedData.main?.temp_max
-            ? `${parsedData.main.temp_max} °C`
-            : null,
-        temp_min: parsedData.main?.temp_min
-            ? `${parsedData.main.temp_min} °C`
-            : null,
-        visibility: parsedData.visibility || null,
-        wind_speed: parsedData.wind?.speed
-            ? `${parsedData.wind.speed} m/s`
-            : null,
-        wind_deg: parsedData.wind?.deg ? `${parsedData.wind.deg} °` : null,
-        wind_direction: parsedData.wind?.deg
-            ? calculateWindDirection(parsedData.wind.deg)
-            : null,
-        wind_gust: parsedData.wind?.gust || null,
-        clouds: parsedData.clouds?.all ? `${parsedData.clouds.all} %` : null,
-        description: parsedData.weather?.[0]?.description || null,
-        summary:
-            parsedData.weather?.[0]?.description && parsedData.wind?.speed
-                ? calculateWeatherCondition(
-                      parsedData.weather[0].description,
-                      parsedData.wind.speed,
-                      parsedData.rain?.['3h'] || 0
-                  )
-                : null,
-        rain: parsedData.rain?.['3h'] ? `${parsedData.rain['3h']} mm` : '0 mm',
+export const parseWeather = (forecast) => {
+    // check if data is available before parsing
+    if (!forecast) return null;
+    let commonProperties = {
+        lat: forecast.coord_lat,
+        lon: forecast.coord_lon,
+        city: forecast.destination_city,
+        forecast_city: forecast.forecast_city,
+        country: forecast.country,
+        sunrise: convertTime(forecast.sunrise),
+        sunset: convertTime(forecast.sunset),
     };
 
-    return weatherData;
+    // check to see if the forecast.weather property is present
+    // if it is, parse the data, flatten it, and add it to the commonProperties object
+    if (forecast.weather) {
+        const weather = JSON.parse(forecast.weather);
+        console.log(weather);
+        // the properties in the array of weather objects are unkown so we need to flatten them
+        const weatherProperties = weather.weather[0];
+        const weatherPropertiesFlattened = Object.keys(
+            weatherProperties
+        ).reduce((acc, key) => {
+            return {
+                ...acc,
+                [key]: weatherProperties[key],
+            };
+        }, {});
+        // iterate through the weatherPropertiesFlattened object and add the properties to the commonProperties object
+        for (const property in weatherPropertiesFlattened) {
+            // check to see if icon or id exists in the weatherPropertiesFlattened object and remove them
+            if (property === 'icon' || property === 'id') continue;
+            commonProperties[property] = weatherPropertiesFlattened[property];
+        }
+        // add the remaining properties to the commonProperties object
+        commonProperties['weather_status'] = calculateWeatherCondition(
+            weather.weather[0].description,
+            weather.wind.speed,
+            weather.pop
+        );
+        commonProperties['temp'] = weather.main.temp;
+        commonProperties['feels_like'] = weather.main.feels_like;
+        commonProperties['temp_min'] = `${weather.main.temp_min}°C`;
+        commonProperties['temp_max'] = `${weather.main.temp_max}°C`;
+        commonProperties['pressure'] = weather.main.pressure;
+        commonProperties['humidity'] = weather.main.humidity;
+        commonProperties['wind_speed'] = weather.wind.speed;
+        commonProperties['wind_deg'] = weather.wind.deg;
+        commonProperties['clouds'] = weather.clouds.all;
+        commonProperties['visibility'] = weather.visibility;
+        commonProperties['pop'] = weather.pop;
+        commonProperties['wind_dir'] = calculateWindDirection(weather.wind.deg);
+    }
+    console.log('common', commonProperties);
+    return commonProperties;
 };
 
 // function that calculates the wind direction based on the wind degree
@@ -174,6 +186,15 @@ export const calculateWindDirection = (wind_deg) => {
     const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
     const index = Math.round((wind_deg % 360) / 45);
     return directions[index % 8];
+};
+
+// function that converts the timeformat 1684372101 to a human readable format
+export const convertTime = (time) => {
+    const date = new Date(time * 1000);
+    const hours = date.getHours();
+    const minutes = '0' + date.getMinutes();
+    const formattedTime = hours + ':' + minutes.substr(-2);
+    return formattedTime;
 };
 
 // function that calculates the overall weather condition based on the weather description, wind speed and rain
