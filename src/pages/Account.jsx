@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import PageHeader from '../components/PageHeader';
 import PropTypes from 'prop-types';
 
 export default function Account({ session }) {
@@ -57,14 +58,7 @@ export default function Account({ session }) {
 
     return (
         <div className='overflow-hiddend'>
-            <div className='px-4 py-5 sm:px-6'>
-                <h3 className='text-base font-semibold leading-6 text-white'>
-                    Account Settings
-                </h3>
-                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    Personal details.
-                </p>
-            </div>
+            <PageHeader title='Account' subtitle='Your profile' />
             <div className='border-t border-zinc-600'>
                 <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
                     <form onSubmit={updateProfile} className='form-widget'>

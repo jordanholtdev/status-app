@@ -10,7 +10,7 @@ import {
     getArrivalTime,
     getDepartureTime,
     makeTime,
-} from '../controller';
+} from '../utils/controller';
 import WeatherData from './WeatherData';
 import PropTypes from 'prop-types';
 
