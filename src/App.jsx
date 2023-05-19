@@ -93,7 +93,6 @@ function App() {
                         }
                     >
                         <Route
-                            index
                             element={
                                 !session ? (
                                     <Auth />
@@ -106,7 +105,7 @@ function App() {
                             }
                         />
                         <Route
-                            path='/add-flight'
+                            index
                             element={
                                 !session ? (
                                     <Auth />

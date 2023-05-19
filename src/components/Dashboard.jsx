@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import Notifications from './Notifications';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -20,7 +21,7 @@ export default function Dashboard({ session }) {
             'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     };
     const navigation = [
-        { name: 'Add', href: '/add-flight', current: true },
+        { name: 'Add', href: '/', current: true },
         { name: 'Flights', href: '/flights', current: false },
         { name: 'Scheduled', href: '/scheduled', current: false },
     ];
@@ -119,12 +120,7 @@ export default function Dashboard({ session }) {
                                             {navigation.map((item) => (
                                                 <Link
                                                     key={item.name}
-                                                    className={classNames(
-                                                        item.current
-                                                            ? 'sm:bg-green-800 text-white'
-                                                            : 'text-gray-300 hover:bg-green-600 hover:text-white',
-                                                        'rounded-md px-3 py-2 text-sm font-medium'
-                                                    )}
+                                                    className='text-gray-300 hover:bg-green-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium'
                                                     to={item.href}
                                                 >
                                                     {item.name}
@@ -135,19 +131,7 @@ export default function Dashboard({ session }) {
                                 </div>
                                 <div className='hidden md:block'>
                                     <div className='ml-4 flex items-center md:ml-6'>
-                                        <button
-                                            type='button'
-                                            className='rounded-full bg-green-600 p-1 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green-600'
-                                        >
-                                            <span className='sr-only'>
-                                                View notifications
-                                            </span>
-                                            <BellIcon
-                                                className='h-6 w-6'
-                                                aria-hidden='true'
-                                            />
-                                        </button>
-
+                                        <Notifications />
                                         {/* Profile dropdown */}
                                         <Menu
                                             as='div'
@@ -283,18 +267,6 @@ export default function Dashboard({ session }) {
                                             {user.email}
                                         </div>
                                     </div>
-                                    <button
-                                        type='button'
-                                        className='ml-auto flex-shrink-0 rounded-full bg-green-600 p-1 text-gray-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-200 focus:ring-offset-2 focus:ring-offset-green-600'
-                                    >
-                                        <span className='sr-only'>
-                                            View notifications
-                                        </span>
-                                        <BellIcon
-                                            className='h-6 w-6 stroke:current text-white'
-                                            aria-hidden='true'
-                                        />
-                                    </button>
                                 </div>
                                 <div className='mt-3 space-y-1 px-2'>
                                     {userNavigation.map((item) => (

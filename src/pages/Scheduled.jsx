@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
-import Notifications from '../components/Notifications';
+import PageHeader from '../components/PageHeader';
 import ScheduledList from '../components/ScheduledList';
 import PropTypes from 'prop-types';
 
@@ -56,18 +56,7 @@ const Scheduled = ({ session }) => {
 
     return (
         <div>
-            <Notifications />
-            <div className='px-4 py-5 sm:px-6 max-w-lg'>
-                <h3 className='text-base font-semibold leading-6 text-white'>
-                    Scheduled
-                </h3>
-                <p className='mt-1 max-w-2xl text-sm text-gray-500'>
-                    These are searches that are scheduled.{' '}
-                    {scheduledFlights.length > 0
-                        ? `You have ${scheduledFlights.length} scheduled searches.`
-                        : 'You have no scheduled searches.'}
-                </p>
-            </div>
+            <PageHeader title='Scheduled' subtitle='Scheduled searches' />
             <div className='border-t border-zinc-600'>
                 <div className='flex justify-center min-w-full mt-10 '>
                     {loading ? (
