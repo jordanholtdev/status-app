@@ -141,7 +141,6 @@ export const parseWeather = (forecast) => {
     // if it is, parse the data, flatten it, and add it to the commonProperties object
     if (forecast.weather) {
         const weather = JSON.parse(forecast.weather);
-        console.log(weather);
         // the properties in the array of weather objects are unkown so we need to flatten them
         const weatherProperties = weather.weather[0];
         const weatherPropertiesFlattened = Object.keys(
@@ -177,7 +176,6 @@ export const parseWeather = (forecast) => {
         commonProperties['pop'] = weather.pop;
         commonProperties['wind_dir'] = calculateWindDirection(weather.wind.deg);
     }
-    console.log('common', commonProperties);
     return commonProperties;
 };
 

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import Loading from '../components/Loading';
 import PageHeader from '../components/PageHeader';
 import AppDialog from '../components/Dialog';
-import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
 import SearchResultsList from '../components/SearchResultsList';
 
@@ -41,7 +40,6 @@ const Create = () => {
 
         if (error) {
             setIsLoading(false);
-            console.log(error);
             setErrorMessage({
                 error: true,
                 title: 'Lookup Error',
@@ -87,18 +85,27 @@ const Create = () => {
     };
 
     const scheduleResultSelection = async () => {
+        setIsLoading(true); // set loading state to true
+        // invoke the schedule-flight function
         const { data, error } = await supabase.functions.invoke(
             'schedule-flight',
             {
                 body: { flight: selectedResult, depart_date: '2023-03-04' },
             }
         );
+        // check for errors
         if (error) {
-            console.error(error);
+            setErrorMessage({
+                error: true,
+                title: 'Duplicate flight number',
+                body: `The flight number ${selectedResult.ident} has already been added to your list. Please select a different flight.`,
+            });
+            setIsDialogOpen(true);
         }
         if (data) {
             // reset the selection state
             setIsSelected(false);
+            setIsLoading(true);
             // route user to flight list if successful
             navigate('/flights');
         }
@@ -106,7 +113,6 @@ const Create = () => {
 
     return (
         <div>
-            <Notifications />
             <AppDialog
                 open={isDialogOpen}
                 setIsOpen={setIsDialogOpen}

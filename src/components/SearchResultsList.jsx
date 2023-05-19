@@ -8,7 +8,6 @@ const SearchResultsList = (props) => {
         results: PropTypes.array.isRequired,
         onSelectResult: PropTypes.func.isRequired,
     };
-
     const onResultClick = (flight) => {
         props.onSelectResult(flight);
     };

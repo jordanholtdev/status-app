@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient';
 import PageHeader from '../components/PageHeader';
-import Notifications from '../components/Notifications';
 import ScheduledList from '../components/ScheduledList';
 import PropTypes from 'prop-types';
 
@@ -57,7 +56,6 @@ const Scheduled = ({ session }) => {
 
     return (
         <div>
-            <Notifications />
             <PageHeader title='Scheduled' subtitle='Scheduled searches' />
             <div className='border-t border-zinc-600'>
                 <div className='flex justify-center min-w-full mt-10 '>

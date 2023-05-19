@@ -7,7 +7,6 @@ import {
     MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import PageHeader from '../components/PageHeader';
-import Notifications from '../components/Notifications';
 import PropTypes from 'prop-types';
 
 const List = ({ session }) => {
@@ -201,7 +200,6 @@ const List = ({ session }) => {
 
     return (
         <div>
-            <Notifications />
             <PageHeader
                 title='Flights'
                 subtitle={`You can search, sort, and filter your flights below.You currently have ${flights.length} flights saved.`}
